@@ -19,5 +19,11 @@ export const routes: Routes = [
       import('./features/carrito/pages/carrito-list/carrito-list')
         .then(m => m.CarritoListComponent)
   },
-  { path: '**', redirectTo: 'catalogo' }
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./pages/home/home')
+        .then(m => m.HomeComponent)
+  },
+  { path: '**', redirectTo: 'home' }
 ];

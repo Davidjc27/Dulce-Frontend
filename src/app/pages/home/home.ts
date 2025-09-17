@@ -12,12 +12,12 @@ interface Product {
   standalone: true,
   imports: [NgFor, CurrencyPipe],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrls: ['./home.css'] // 👈 plural
 })
 export class HomeComponent {
   products: Product[] = [
-    { name: 'Camisa denim', price: 59.99, image: 'https://via.placeholder.com/300' },
-    { name: 'Chaqueta cuero', price: 120, image: 'https://via.placeholder.com/300' },
-    { name: 'Jeans skinny', price: 70.5, image: 'https://via.placeholder.com/300' }
+    { name: 'Camisa denim',  price: 59.99, image: 'https://via.placeholder.com/300' },
+    { name: 'Chaqueta cuero', price: 120,   image: 'https://via.placeholder.com/300' },
+    { name: 'Jeans skinny',   price: 70.5,   image: 'https://via.placeholder.com/300' }
   ];
 }
