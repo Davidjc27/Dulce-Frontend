@@ -20,3 +20,29 @@
     <p>Moda inspirada en ti.</p>
   </div>
 </section>
+
+<section class="spotlights">
+  <a class="spotlight-card spotlight-card--dama" routerLink="/catalogo?cat=dama" aria-label="Ver novedades de Dama">
+    <div class="spotlight-badge">NEW</div>
+    <div class="spotlight-content">
+      <h3>Novedades Dama</h3>
+      <p>Descubre lo último en camisas, blusas y más</p>
+    </div>
+  </a>
+
+  <a class="spotlight-card spotlight-card--nina" routerLink="/catalogo?cat=nina" aria-label="Ver novedades de Niña">
+    <div class="spotlight-badge">NEW</div>
+    <div class="spotlight-content">
+      <h3>Novedades Niña</h3>
+      <p>Colores, texturas y diversión</p>
+    </div>
+  </a>
+</section>
+
+<section class="products" *ngIf="products?.length">
+  <div class="product-card" *ngFor="let product of products">
+    <img [src]="product.image" [alt]="product.name" />
+    <h3>{{ product.name }}</h3>
+    <p class="price">{{ product.price | currency:'USD' }}</p>
+  </div>
+</section>

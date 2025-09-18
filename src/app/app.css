@@ -1,0 +1,123 @@
+:root{
+  --footer-bg:#fafbff;
+  --footer-fg:#132548;
+  --footer-muted:#4a5a78;
+  --footer-divider:#d9dfeb;
+}
+
+.site-footer {
+  background: var(--footer-bg);
+  color: var(--footer-fg);
+  padding: 2.25rem 1rem 2.5rem;
+  font-size: 16px;
+  border-top: 2px solid #151314; /* 👈 un azul oscuro fijo */
+}
+
+/* FILA 1: MENÚS */
+.footer-menus{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.5rem;
+  max-width:1200px;
+  margin:0 auto 1.75rem;
+}
+@media (min-width:900px){
+  .footer-menus{ grid-template-columns:repeat(4,1fr); }
+}
+.footer-menu summary{
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  list-style:none;
+  cursor:default;
+  color:var(--footer-fg);
+  margin-bottom:.75rem;
+}
+.footer-menu[open] > summary::-webkit-details-marker{ display:none; }
+.footer-menu ul{ margin:0; padding:0; list-style:none; }
+.footer-menu li{ margin:.5rem 0; }
+.footer-menu a{
+  color:var(--footer-muted);
+  text-decoration:none;
+}
+.footer-menu a:hover{ text-decoration:underline; }
+
+/* FILA 2: CANALES + SOCIAL */
+.footer-service{
+  max-width:1200px;
+  margin:1.5rem auto 1.25rem;
+  text-align:center;
+}
+.footer-service h4{
+  margin:0 0 1rem;
+  font-size:clamp(1rem,2.2vw,1.15rem);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.service-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.75rem 1.25rem;
+  align-items:center;
+  justify-content:center;
+  color:var(--footer-fg);
+  margin-bottom:1rem;
+}
+.service-links a{ color:var(--footer-fg); text-decoration:none; }
+.service-links a:hover{ text-decoration:underline; }
+.divider{
+  width:1px; height:18px; background:var(--footer-fg); opacity:.35;
+  display:inline-block;
+}
+
+.social{
+  display:flex;
+  gap:1rem;
+  align-items:center;
+  justify-content:center;
+  color:var(--footer-fg);
+}
+.social a{
+  display:inline-flex; align-items:center; gap:.35rem;
+  font-size:1.25rem; color:var(--footer-fg); text-decoration:none;
+}
+.social a span{ font-size:.95rem; color:var(--footer-muted); }
+
+/* FILA 3: LEGAL */
+.footer-sep{
+  border:none; border-top:1px solid var(--footer-divider);
+  max-width:1200px; margin:1.75rem auto;
+}
+.footer-legal{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  gap:1rem;
+  grid-template-columns:1fr;
+  align-items:center;
+  text-align:center;
+  color:var(--footer-muted);
+}
+@media (min-width:900px){
+  .footer-legal{
+    grid-template-columns:1fr 1fr 1fr;
+    text-align:initial;
+  }
+}
+.legal-left{
+  display:flex; align-items:center; gap:.75rem;
+  justify-content:center;
+}
+@media (min-width:900px){
+  .legal-left{ justify-content:flex-start; }
+  .legal-right{ text-align:right; }
+  .legal-center{ text-align:center; }
+}
+.legal-left .badge{
+  display:inline-grid; place-items:center;
+  width:40px; height:40px; border-radius:50%;
+  background:#e9eef8; color:var(--footer-fg); font-size:1.15rem;
+}
+
+/* utilidades para accesibilidad */
+.site-footer a:focus{ outline:2px dashed #99b; outline-offset:2px; }
