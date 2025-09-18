@@ -1,11 +1,15 @@
 // src/app/pages/home/home.spec.ts
 import { TestBed } from '@angular/core/testing';
-import { HomeComponent } from './home'; 
+import { RouterTestingModule } from '@angular/router/testing'; // 👈 importa el módulo de testing
+import { HomeComponent } from './home';
 
 describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeComponent], // standalone
+      imports: [
+        HomeComponent,       
+        RouterTestingModule,  
+      ],
     }).compileComponents();
   });
 
