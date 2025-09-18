@@ -1,1 +1,146 @@
+
 <p>catalogo-list works!</p>
+<div class="catalog-wrapper" [class.filters-open]="isFiltersOpen">
+  <div class="mobile-filters-bar">
+    <button
+      #filtersButtonRef
+      type="button"
+      class="filters-toggle"
+      (click)="openFilters()"
+      aria-controls="catalog-filters"
+      [attr.aria-expanded]="isFiltersOpen"
+    >
+      Filtros
+    </button>
+  </div>
+
+  <div class="filters-backdrop" *ngIf="isFiltersOpen" (click)="closeFilters()"></div>
+
+  <aside
+    id="catalog-filters"
+    class="filters-panel"
+    [class.open]="isFiltersOpen"
+    aria-label="Filtros"
+  >
+    <form [formGroup]="filtersForm" class="filters-form">
+      <div class="filters-section">
+        <h3>Categoría</h3>
+        <div class="option" *ngFor="let category of categoryOptions">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="filtersForm.controls.categories.value.includes(category)"
+              (change)="onCheckboxChange('categories', category, $event.target.checked)"
+            />
+            <span>{{ category }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filters-section">
+        <h3>Talla</h3>
+        <div class="option" *ngFor="let size of sizeOptions">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="filtersForm.controls.sizes.value.includes(size)"
+              (change)="onCheckboxChange('sizes', size, $event.target.checked)"
+            />
+            <span>{{ size }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filters-section">
+        <h3>Color</h3>
+        <div class="option" *ngFor="let color of colorOptions">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="filtersForm.controls.colors.value.includes(color)"
+              (change)="onCheckboxChange('colors', color, $event.target.checked)"
+            />
+            <span>{{ color }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filters-section">
+        <h3>Precio</h3>
+        <div class="price-inputs">
+          <label>
+            <span>Min</span>
+            <input type="number" formControlName="priceMin" min="0" (change)="onPriceChange()" />
+          </label>
+          <label>
+            <span>Max</span>
+            <input type="number" formControlName="priceMax" min="0" (change)="onPriceChange()" />
+          </label>
+        </div>
+      </div>
+    </form>
+  </aside>
+
+  <div class="catalog-content">
+    <section class="applied-filters" *ngIf="filterChips.length">
+      <div class="chips">
+        <button
+          type="button"
+          class="chip"
+          *ngFor="let chip of filterChips; trackBy: trackByChip"
+          (click)="removeFilterChip(chip)"
+          [attr.aria-label]="'Quitar filtro ' + chip.value"
+        >
+          <span>{{ chip.label }}</span>
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <button type="button" class="clear-all" (click)="clearFilters()">Limpiar filtros</button>
+    </section>
+
+    <section class="sort-bar">
+      <label for="sortSelect">Ordenar por</label>
+      <select id="sortSelect" [formControl]="filtersForm.controls.sort" (change)="onSortChange()">
+        <option *ngFor="let option of sortOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </section>
+
+    <section class="products-grid" aria-live="polite">
+      <ng-container *ngIf="displayedProducts.length; else emptyState">
+        <article class="product-card" *ngFor="let product of displayedProducts; trackBy: trackById">
+          <div class="image-wrapper">
+            <img
+              [ngSrc]="product.image"
+              [alt]="product.name"
+              width="300"
+              height="360"
+              loading="lazy"
+            />
+          </div>
+          <div class="card-body">
+            <h3>{{ product.name }}</h3>
+            <p class="price">${{ product.price | number: '1.0-0' }}</p>
+            <p class="meta">
+              <span>{{ product.category }}</span>
+              <span>Talla: {{ product.size }}</span>
+              <span>Color: {{ product.color }}</span>
+            </p>
+          </div>
+        </article>
+      </ng-container>
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <p>No se encontraron productos con los filtros seleccionados.</p>
+        </div>
+      </ng-template>
+    </section>
+
+    <nav class="pagination" aria-label="Paginación de productos" *ngIf="filteredProducts.length">
+      <button type="button" (click)="goToPreviousPage()" [disabled]="page === 1">Anterior</button>
+      <span>Página {{ page }} de {{ totalPages }}</span>
+      <button type="button" (click)="goToNextPage()" [disabled]="page === totalPages">Siguiente</button>
+    </nav>
+  </div>
+</div>

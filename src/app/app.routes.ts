@@ -11,7 +11,7 @@ export const routes: Routes = [
     path: 'catalogo',
     loadComponent: () =>
       import('./features/catalogo/pages/catalogo-list/catalogo-list.component')
-        .then(m => m.CatalogoListComponent)
+        .then(m => m.default)
   },
   {
     path: 'carrito',
