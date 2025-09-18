@@ -1,9 +1,88 @@
 <nav class="navbar">
-  <div class="logo">Dulce</div>
-  <ul class="menu">
-    <li><a routerLink="/">Inicio</a></li>
-    <li><a routerLink="/hombre">Dama</a></li>
-    <li><a routerLink="/mujer">Niña</a></li>
-    <li><a routerLink="/accesorios">Acceso</a></li>
-  </ul>
+  <div class="navbar-inner">
+    <div class="logo">Dulce</div>
+    <ul class="menu">
+      <li
+        class="menu-item has-dropdown menu-promociones"
+        [class.is-open]="activeMenu === 'promociones'"
+        (mouseenter)="openMenu('promociones')"
+        (mouseleave)="closeMenu('promociones')"
+        (focusin)="openMenu('promociones')"
+        (focusout)="handleFocusOut($event, 'promociones')"
+      >
+        <a class="menu-link" routerLink="/home">
+          <span class="menu-label">Promociones</span>
+        </a>
+        <ul class="dropdown">
+          <li><a routerLink="/catalogo">Llévame a las promociones</a></li>
+        </ul>
+      </li>
+      <li
+        class="menu-item has-dropdown menu-nuevo"
+        [class.is-open]="activeMenu === 'nuevo'"
+        (mouseenter)="openMenu('nuevo')"
+        (mouseleave)="closeMenu('nuevo')"
+        (focusin)="openMenu('nuevo')"
+        (focusout)="handleFocusOut($event, 'nuevo')"
+      >
+        <a class="menu-link" routerLink="/home">
+          <span class="menu-label">Nuevo</span>
+        </a>
+        <ul class="dropdown">
+          <li><a routerLink="/catalogo">Tendencias</a></li>
+        </ul>
+      </li>
+      <li
+        class="menu-item has-dropdown menu-dama"
+        [class.is-open]="activeMenu === 'dama'"
+        (mouseenter)="openMenu('dama')"
+        (mouseleave)="closeMenu('dama')"
+        (focusin)="openMenu('dama')"
+        (focusout)="handleFocusOut($event, 'dama')"
+      >
+        <a class="menu-link" routerLink="/catalogo">
+          <span class="menu-label">Dama</span>
+        </a>
+        <ul class="dropdown">
+          <li><a routerLink="/catalogo">Pijamas</a></li>
+          <li><a routerLink="/catalogo">Blusas</a></li>
+          <li><a routerLink="/catalogo">Camisetas</a></li>
+          <li><a routerLink="/catalogo">Leggins</a></li>
+        </ul>
+      </li>
+      <li
+        class="menu-item has-dropdown menu-nina"
+        [class.is-open]="activeMenu === 'nina'"
+        (mouseenter)="openMenu('nina')"
+        (mouseleave)="closeMenu('nina')"
+        (focusin)="openMenu('nina')"
+        (focusout)="handleFocusOut($event, 'nina')"
+      >
+        <a class="menu-link" routerLink="/catalogo">
+          <span class="menu-label">Niña</span>
+        </a>
+        <ul class="dropdown">
+          <li><a routerLink="/catalogo">Pijamas</a></li>
+          <li><a routerLink="/catalogo">Blusas</a></li>
+          <li><a routerLink="/catalogo">Camisetas</a></li>
+          <li><a routerLink="/catalogo">Leggins</a></li>
+        </ul>
+      </li>
+      <li
+        class="menu-item has-dropdown menu-acceso"
+        [class.is-open]="activeMenu === 'acceso'"
+        (mouseenter)="openMenu('acceso')"
+        (mouseleave)="closeMenu('acceso')"
+        (focusin)="openMenu('acceso')"
+        (focusout)="handleFocusOut($event, 'acceso')"
+      >
+        <a class="menu-link" routerLink="/home">
+          <span class="menu-label">Acceso</span>
+        </a>
+        <ul class="dropdown">
+          <li><a routerLink="/home">Acceso empleados</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </nav>
