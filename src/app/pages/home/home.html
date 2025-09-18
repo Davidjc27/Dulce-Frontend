@@ -1,21 +1,22 @@
 <section class="hero">
   <div class="hero-video" aria-hidden="true">
+    <div class="hero-brand" *ngIf="showBrandReveal">Dulce</div>
     <video
       #heroVideoEl
       class="hero-video-el"
-      src="assets/video/hero-540-8s.mp4"
       muted
       autoplay
       loop
       playsinline
       preload="auto"
-      poster="assets/img/hero-poster.jpg">
+      poster="assets/img/hero-poster.jpg"
+      fetchpriority="high">
+      <source src="assets/video/hero-540-8s.mp4" type="video/mp4" />
       Tu navegador no soporta video HTML5.
     </video>
   </div>
 
   <div class="hero-content">
-    <h1>Dulce Store</h1>
     <p>Moda inspirada en ti.</p>
   </div>
 </section>
