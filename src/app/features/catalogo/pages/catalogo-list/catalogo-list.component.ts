@@ -12,7 +12,6 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { startWith } from 'rxjs';
 
 type Category = 'Dama' | 'Niña';
 type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | '4' | '6' | '8' | '10' | '12' | '14';
@@ -63,7 +62,8 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   @ViewChild('productsGrid')
   private productsGridRef?: ElementRef<HTMLElement>;
 
-  private isBootstrapping = true;  
+  private isBootstrapping = true;
+  private readonly itemsPerPage = 12; 
 
   readonly categoryOptions: Category[] = ['Dama', 'Niña'];
   readonly sizeOptions: Size[] = ['XS', 'S', 'M', 'L', 'XL', '4', '6', '8', '10', '12', '14'];
@@ -247,11 +247,10 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     }
   ];
 
-   private itemsPerPage = 12;
   page = 1;
-  totalPages = 1;
-  filteredProducts: Product[] = [];
-  pagedProducts: Product[] = [];
+  filteredProducts: Product[] = [...this.allProducts];
+  totalPages = Math.max(1, Math.ceil(this.filteredProducts.length / this.itemsPerPage));
+  pagedProducts: Product[] = this.filteredProducts.slice(0, this.itemsPerPage);
   appliedChips: FilterChip[] = [];
   isFiltersOpen = false;
 
@@ -276,22 +275,25 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   } else {
     const stored = this.loadStateFromStorage();
     if (stored) this.applyStoredState(stored);
-    // si no hay nada, se quedan los defaults del form
   }
 
   // 2) Pinta inmediatamente productos + chips
-  this.filterProducts(); // ← ya rellena filtered/paged y hace markForCheck
+  this.filterProducts(); // ya rellena filtered/paged y hace markForCheck
 
-  // 3) A partir de aquí, ya no estamos en bootstrap
+  // 3) Fin de bootstrap
   this.isBootstrapping = false;
+  queueMicrotask(() => this.cdr.detectChanges());
+
+  // ✅ 3.1) Fuerza el primer render con OnPush
+  this.cdr.detectChanges();
 
   // 4) Cambios del form → aplicar filtros + escribir URL
   this.filtersForm.valueChanges
     .pipe(takeUntilDestroyed())
     .subscribe(() => {
-      if (this.isBootstrapping) return;      // guard
+      if (this.isBootstrapping) return;
       this.page = 1;
-      this.syncQueryFromForm();              // ahora sí
+      this.syncQueryFromForm();
       this.filterProducts();
     });
 
@@ -299,22 +301,34 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   this.route.queryParamMap
     .pipe(takeUntilDestroyed())
     .subscribe((pm: ParamMap) => {
-      if (this.isBootstrapping) return;      // guard
+      if (!this.initialQueryApplied) {
+        this.initialQueryApplied = true;
+        return;
+      }
+      this.isBootstrapping = true;
       this.syncFormFromQuery(pm);
+      this.isBootstrapping = false;
       this.filterProducts();
     });
 }
 
   ngAfterViewInit(): void {
-    this.onViewportChange();
-    if (this.isBrowser()) {
-      window.addEventListener('resize', this.handleViewportResize, {
-        passive: true
-      });
-      if (typeof ResizeObserver !== 'undefined' && this.productsGridRef) {
-      }
+  this.onViewportChange();
+
+  // 👉 Garantiza que todo pinte al entrar por primera vez
+  queueMicrotask(() => {
+    // recalcula por si algo dependía de la vista/medidas
+    this.filterProducts();
+    this.cdr.detectChanges();
+  });
+
+  if (this.isBrowser()) {
+    window.addEventListener('resize', this.handleViewportResize, { passive: true });
+    if (typeof ResizeObserver !== 'undefined' && this.productsGridRef) {
+      // si luego quieres observar la grilla, puedes inicializar aquí.
     }
   }
+}
 
   ngOnDestroy(): void {
     this.enableBodyScroll();
@@ -351,7 +365,14 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   const control = this.filtersForm.get(controlName) as FormControl<string[]>;
   const current = new Set(control.value ?? []);
   checked ? current.add(value) : current.delete(value);
-  control.setValue([...current] as never, { emitEvent: true }); // esto dispara valueChanges
+
+  // No dispares valueChanges aquí; nosotros controlamos el flujo
+  control.setValue([...current] as never, { emitEvent: false });
+
+  // Fuerza aplicación inmediata del filtro y URL
+  this.page = 1;
+  this.syncQueryFromForm();
+  this.filterProducts();
 }
 
   onSortChange(): void {
@@ -361,8 +382,16 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   }
 
   onPriceChange(): void {
-
+  // Valida y aplica inmediatamente
+  const { priceMin, priceMax } = this.filtersForm.getRawValue();
+  if (priceMin !== null && priceMax !== null && priceMin > priceMax) {
+    // normaliza: si min > max, intercámbialos
+    this.filtersForm.patchValue({ priceMin: priceMax, priceMax: priceMin }, { emitEvent: false });
   }
+  this.page = 1;
+  this.syncQueryFromForm();
+  this.filterProducts();
+}
 
   removeFilterChip(chip: FilterChip): void {
     switch (chip.type) {
@@ -553,11 +582,8 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   }
 
   private onViewportChange(): void {
-    const previous = this.itemsPerPage;
-    if (previous !== this.itemsPerPage) {
-      this.updatePagination();
-    }
-  }
+  this.updatePagination();
+}
 
   private syncFormFromQuery(paramMap: ParamMap): void {
     const categories = this.getQueryArray<Category>(paramMap, 'categories', this.categoryOptions);
@@ -573,14 +599,17 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     const pageParam = this.parseNumber(paramMap.get('page'));
     this.page = pageParam !== null && pageParam > 0 ? Math.floor(pageParam) : 1;
 
-    this.filtersForm.setValue({
-      categories,
-      sizes,
-      colors,
-      priceMin: priceMinParam,
-      priceMax: priceMaxParam,
-      sort
-    });
+    this.filtersForm.setValue(
+      {
+        categories,
+        sizes,
+        colors,
+        priceMin: priceMinParam,
+        priceMax: priceMaxParam,
+        sort
+      },
+      { emitEvent: false }
+    );
   }
 
   private syncQueryFromForm(): void {
