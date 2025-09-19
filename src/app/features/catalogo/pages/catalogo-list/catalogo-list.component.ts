@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,6 +12,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { startWith } from 'rxjs';
 
 type Category = 'Dama' | 'Niña';
 type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | '4' | '6' | '8' | '10' | '12' | '14';
@@ -52,13 +54,18 @@ interface StoredFiltersState {
   styleUrls: ['./catalogo-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class CatalogoListComponent implements OnInit, OnDestroy {
+export default class CatalogoListComponent implements OnInit, OnDestroy, AfterViewInit {
   private static readonly STORAGE_KEY = 'catalogo_filters_state';
 
   @ViewChild('filtersButtonRef')
   private filtersButton?: ElementRef<HTMLButtonElement>;
 
-   readonly categoryOptions: Category[] = ['Dama', 'Niña'];
+  @ViewChild('productsGrid')
+  private productsGridRef?: ElementRef<HTMLElement>;
+
+  private isBootstrapping = true;  
+
+  readonly categoryOptions: Category[] = ['Dama', 'Niña'];
   readonly sizeOptions: Size[] = ['XS', 'S', 'M', 'L', 'XL', '4', '6', '8', '10', '12', '14'];
   readonly colorOptions: Color[] = ['Negro', 'Blanco', 'Azul', 'Rojo', 'Verde', 'Amarillo', 'Morado', 'Rosa'];
   readonly sortOptions: { value: SortOptionValue; label: string }[] = [
@@ -240,7 +247,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
     }
   ];
 
-  readonly itemsPerPage = 9;
+   private itemsPerPage = 12;
   page = 1;
   totalPages = 1;
   filteredProducts: Product[] = [];
@@ -249,6 +256,11 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   isFiltersOpen = false;
 
   private initialQueryApplied = false;
+  private resizeObserver?: ResizeObserver;
+  private selectedCategories = new Set<Category>();
+  private selectedSizes = new Set<Size>();
+  private selectedColors = new Set<Color>();
+  private readonly handleViewportResize = () => this.onViewportChange();
 
   constructor(
     private readonly router: Router,
@@ -257,26 +269,60 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   ) {}
   
   ngOnInit(): void {
-    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(paramMap => {
-      if (!this.initialQueryApplied && !this.hasQueryParams(paramMap)) {
-        const storedState = this.loadStateFromStorage();
-        if (storedState) {
-          this.applyStoredState(storedState);
-          this.initialQueryApplied = true;
-          this.syncQueryFromForm();
-          this.filterProducts();
-          return;
-        }
-      }
+  // 1) Inicializa desde URL o storage, pero SIN navegar
+  const snapshotPm: ParamMap = this.route.snapshot.queryParamMap;
+  if (this.hasQueryParams(snapshotPm)) {
+    this.syncFormFromQuery(snapshotPm);
+  } else {
+    const stored = this.loadStateFromStorage();
+    if (stored) this.applyStoredState(stored);
+    // si no hay nada, se quedan los defaults del form
+  }
 
-      this.initialQueryApplied = true;
-      this.syncFormFromQuery(paramMap);
+  // 2) Pinta inmediatamente productos + chips
+  this.filterProducts(); // ← ya rellena filtered/paged y hace markForCheck
+
+  // 3) A partir de aquí, ya no estamos en bootstrap
+  this.isBootstrapping = false;
+
+  // 4) Cambios del form → aplicar filtros + escribir URL
+  this.filtersForm.valueChanges
+    .pipe(takeUntilDestroyed())
+    .subscribe(() => {
+      if (this.isBootstrapping) return;      // guard
+      this.page = 1;
+      this.syncQueryFromForm();              // ahora sí
       this.filterProducts();
     });
+
+  // 5) Cambios futuros de la URL (back/forward/enlaces)
+  this.route.queryParamMap
+    .pipe(takeUntilDestroyed())
+    .subscribe((pm: ParamMap) => {
+      if (this.isBootstrapping) return;      // guard
+      this.syncFormFromQuery(pm);
+      this.filterProducts();
+    });
+}
+
+  ngAfterViewInit(): void {
+    this.onViewportChange();
+    if (this.isBrowser()) {
+      window.addEventListener('resize', this.handleViewportResize, {
+        passive: true
+      });
+      if (typeof ResizeObserver !== 'undefined' && this.productsGridRef) {
+      }
+    }
   }
 
   ngOnDestroy(): void {
     this.enableBodyScroll();
+    if (this.isBrowser()) {
+      window.removeEventListener('resize', this.handleViewportResize);
+    }
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
   }
 
   applyFilters(): void {
@@ -298,25 +344,15 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   }
 
   onCheckboxChange(
-    controlName: 'categories' | 'sizes' | 'colors',
-    value: string,
-    checked: boolean
-  ): void {
-    const control = this.filtersForm.get(controlName) as FormControl<string[]>;
-    const current = [...(control.value ?? [])];
-    if (checked) {
-      if (!current.includes(value)) {
-        current.push(value);
-      }
-    } else {
-      const index = current.indexOf(value);
-      if (index !== -1) {
-        current.splice(index, 1);
-      }
-    }
-    control.setValue(current as never);
-    this.applyFilters();
-  }
+  controlName: 'categories' | 'sizes' | 'colors',
+  value: string,
+  checked: boolean
+): void {
+  const control = this.filtersForm.get(controlName) as FormControl<string[]>;
+  const current = new Set(control.value ?? []);
+  checked ? current.add(value) : current.delete(value);
+  control.setValue([...current] as never, { emitEvent: true }); // esto dispara valueChanges
+}
 
   onSortChange(): void {
     this.page = 1;
@@ -325,7 +361,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   }
 
   onPriceChange(): void {
-    this.applyFilters();
+
   }
 
   removeFilterChip(chip: FilterChip): void {
@@ -388,6 +424,30 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
     return `${chip.type}-${chip.value}`;
   }
 
+  trackByCategory(_index: number, category: Category): Category {
+    return category;
+  }
+
+  trackBySize(_index: number, size: Size): Size {
+    return size;
+  }
+
+  trackByColor(_index: number, color: Color): Color {
+    return color;
+  }
+
+  isCategorySelected(category: Category): boolean {
+    return this.selectedCategories.has(category);
+  }
+
+  isSizeSelected(size: Size): boolean {
+    return this.selectedSizes.has(size);
+  }
+
+  isColorSelected(color: Color): boolean {
+    return this.selectedColors.has(color);
+  }
+
   private filterProducts(): void {
     const { categories, sizes, colors, priceMin, priceMax, sort } = this.filtersForm.getRawValue();
     let result = [...this.allProducts];
@@ -415,6 +475,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
     result = this.sortProducts(result, sort);
 
     this.filteredProducts = result;
+    this.updateSelectionSets(categories, sizes, colors);
     this.updateAppliedChips();
     this.updatePagination();
     this.saveStateToStorage({
@@ -445,21 +506,16 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   }
 
   private updatePagination(): void {
-    const total = this.filteredProducts.length;
-    this.totalPages = total > 0 ? Math.ceil(total / this.itemsPerPage) : 1;
+  const total = this.filteredProducts.length;
+  this.totalPages = total > 0 ? Math.ceil(total / this.itemsPerPage) : 1;
 
-    if (this.page > this.totalPages) {
-      this.page = this.totalPages;
-    }
+  if (this.page > this.totalPages) this.page = this.totalPages;
+  if (this.page < 1) this.page = 1;
 
-    if (this.page < 1) {
-      this.page = 1;
-    }
-
-     const startIndex = (this.page - 1) * this.itemsPerPage;
-    this.pagedProducts = this.filteredProducts.slice(startIndex, startIndex + this.itemsPerPage);
-    this.cdr.markForCheck();
-  }
+  const startIndex = (this.page - 1) * this.itemsPerPage;
+  this.pagedProducts = this.filteredProducts.slice(startIndex, startIndex + this.itemsPerPage);
+  this.cdr.markForCheck();
+}
 
   private updateAppliedChips(): void {
     const chips: FilterChip[] = [];
@@ -490,6 +546,19 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
     this.appliedChips = chips;
   }
 
+    private updateSelectionSets(categories: Category[], sizes: Size[], colors: Color[]): void {
+    this.selectedCategories = new Set(categories);
+    this.selectedSizes = new Set(sizes);
+    this.selectedColors = new Set(colors);
+  }
+
+  private onViewportChange(): void {
+    const previous = this.itemsPerPage;
+    if (previous !== this.itemsPerPage) {
+      this.updatePagination();
+    }
+  }
+
   private syncFormFromQuery(paramMap: ParamMap): void {
     const categories = this.getQueryArray<Category>(paramMap, 'categories', this.categoryOptions);
     const sizes = this.getQueryArray<Size>(paramMap, 'sizes', this.sizeOptions);
@@ -515,23 +584,25 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   }
 
   private syncQueryFromForm(): void {
-    const { categories, sizes, colors, priceMin, priceMax, sort } = this.filtersForm.getRawValue();
-    const queryParams: Params = {
-      categories: categories.length ? categories.join(',') : null,
-      sizes: sizes.length ? sizes.join(',') : null,
-      colors: colors.length ? colors.join(',') : null,
-      priceMin: priceMin !== null ? priceMin : null,
-      priceMax: priceMax !== null ? priceMax : null,
-      sort: sort !== 'relevance' ? sort : null,
-      page: this.page > 1 ? this.page : null
-    };
+  if (this.isBootstrapping) return;  // 👈 evita navegar en el primer render
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams,
-      replaceUrl: true
-    });
-  }
+  const { categories, sizes, colors, priceMin, priceMax, sort } = this.filtersForm.getRawValue();
+  const queryParams: Params = {
+    categories: categories.length ? categories.join(',') : null,
+    sizes: sizes.length ? sizes.join(',') : null,
+    colors: colors.length ? colors.join(',') : null,
+    priceMin: priceMin ?? null,
+    priceMax: priceMax ?? null,
+    sort: sort !== 'relevance' ? sort : null,
+    page: this.page > 1 ? this.page : null
+  };
+
+  this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams,
+    replaceUrl: true
+  });
+}
 
   private hasQueryParams(paramMap: ParamMap): boolean {
     return paramMap.keys.some(key => paramMap.get(key) !== null && paramMap.get(key) !== '');

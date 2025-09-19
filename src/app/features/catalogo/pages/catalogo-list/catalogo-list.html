@@ -78,7 +78,7 @@
           </label>
         </div>
       </div>
-
+      
     </form>
   </aside>
 
@@ -110,41 +110,27 @@
     </section>
 
     <!-- grilla de productos -->
-    <section class="products" *ngIf="filteredProducts?.length; else emptyState">
-      <article class="product-card" *ngFor="let product of pagedProducts; trackBy: trackById">
-        <figure class="product-media">
-          <img
-            [ngSrc]="product.image"
-            [alt]="product.name"
-            width="300"
-            height="400"
-            loading="lazy" />
-        </figure>
-        <div class="product-details">
-          <div class="product-header">
-            <h3>{{ product.name }}</h3>
-            <p class="price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</p>
-          </div>
-          <div class="product-meta">
-            <span class="badge">{{ product.category }}</span>
-            <span class="badge">Talla {{ product.size }}</span>
-            <span class="badge badge-color">{{ product.color }}</span>
-          </div>
-          <p class="product-description">
-            Diseñado para acompañarte en cada momento especial. Disponible en color
-            {{ product.color | lowercase }} y talla {{ product.size }} con envío inmediato.
-          </p>
-          <ul class="product-benefits">
-            <li>Envío gratis en compras mayores a $999</li>
-            <li>Cambios sin costo durante 30 días</li>
-          </ul>
-          <div class="card-actions">
-            <button type="button" class="primary">Agregar al carrito</button>
-            <button type="button" class="ghost">Ver detalles</button>
-          </div>
-        </div>
-      </article>
-    </section>
+<section class="products" *ngIf="filteredProducts?.length; else emptyState">
+  <article class="product-card" *ngFor="let product of pagedProducts; trackBy: trackById">
+    <div class="product-media">
+      <img
+        [ngSrc]="product.image"
+        [alt]="product.name"
+        width="300"
+        height="400"
+        loading="lazy" />
+    </div>
+    <div class="product-info">
+      <h3 class="product-name">{{ product.name }}</h3>
+      <p class="price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</p>
+      <p class="product-tags">
+        <span class="tag">{{ product.category }}</span>
+        <span class="tag">Talla: {{ product.size }}</span>
+        <span class="tag tag-color">Color: {{ product.color }}</span>
+      </p>
+    </div>
+  </article>
+</section>
 
     <ng-template #emptyState>
       <div class="empty-state">
