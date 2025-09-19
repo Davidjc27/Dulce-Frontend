@@ -58,7 +58,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
   @ViewChild('filtersButtonRef')
   private filtersButton?: ElementRef<HTMLButtonElement>;
 
-  readonly categoryOptions: Category[] = ['Dama', 'Niña'];
+   readonly categoryOptions: Category[] = ['Dama', 'Niña'];
   readonly sizeOptions: Size[] = ['XS', 'S', 'M', 'L', 'XL', '4', '6', '8', '10', '12', '14'];
   readonly colorOptions: Color[] = ['Negro', 'Blanco', 'Azul', 'Rojo', 'Verde', 'Amarillo', 'Morado', 'Rosa'];
   readonly sortOptions: { value: SortOptionValue; label: string }[] = [
@@ -82,7 +82,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-001',
       name: 'Vestido satinado verde',
       price: 1299,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-001/300/400',
       category: 'Dama',
       size: 'M',
       color: 'Verde',
@@ -92,7 +92,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-002',
       name: 'Blusa de encaje negra',
       price: 749,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-002/300/400',
       category: 'Dama',
       size: 'S',
       color: 'Negro',
@@ -102,7 +102,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-003',
       name: 'Conjunto casual rojo',
       price: 899,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-003/300/400',
       category: 'Dama',
       size: 'L',
       color: 'Rojo',
@@ -112,7 +112,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-004',
       name: 'Chamarra denim clásica',
       price: 1199,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-004/300/400',
       category: 'Dama',
       size: 'XL',
       color: 'Azul',
@@ -122,7 +122,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-005',
       name: 'Vestido blanco floral',
       price: 1099,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-005/300/400',
       category: 'Dama',
       size: 'XS',
       color: 'Blanco',
@@ -132,7 +132,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-006',
       name: 'Suéter amarillo suave',
       price: 659,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-006/300/400',
       category: 'Dama',
       size: 'M',
       color: 'Amarillo',
@@ -142,7 +142,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-007',
       name: 'Vestido tutú rosa',
       price: 549,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-007/300/400',
       category: 'Niña',
       size: '6',
       color: 'Rosa',
@@ -152,7 +152,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-008',
       name: 'Conjunto morado brillante',
       price: 599,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-008/300/400',
       category: 'Niña',
       size: '8',
       color: 'Morado',
@@ -162,7 +162,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-009',
       name: 'Chaqueta azul deportiva',
       price: 689,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-009/300/400',
       category: 'Niña',
       size: '10',
       color: 'Azul',
@@ -172,7 +172,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-010',
       name: 'Conjunto verde bosque',
       price: 639,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-010/300/400',
       category: 'Niña',
       size: '12',
       color: 'Verde',
@@ -182,7 +182,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-011',
       name: 'Vestido rojo festivo',
       price: 719,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-011/300/400',
       category: 'Niña',
       size: '14',
       color: 'Rojo',
@@ -192,7 +192,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-012',
       name: 'Blazer rosa pastel',
       price: 1349,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-012/300/400',
       category: 'Dama',
       size: 'M',
       color: 'Rosa',
@@ -202,7 +202,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-013',
       name: 'Falda plisada morada',
       price: 799,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-013/300/400',
       category: 'Dama',
       size: 'S',
       color: 'Morado',
@@ -212,7 +212,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-014',
       name: 'Conjunto sport blanco',
       price: 899,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-014/300/400',
       category: 'Dama',
       size: 'L',
       color: 'Blanco',
@@ -222,7 +222,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-015',
       name: 'Abrigo negro elegante',
       price: 1599,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-015/300/400',
       category: 'Dama',
       size: 'XL',
       color: 'Negro',
@@ -232,7 +232,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
       id: 'p-016',
       name: 'Vestido azul marino',
       price: 989,
-      image: 'assets/img/hero-poster.jpg',
+      image: 'https://picsum.photos/seed/camisasdama-016/300/400',
       category: 'Dama',
       size: 'M',
       color: 'Azul',
@@ -255,7 +255,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef
   ) {}
-
+  
   ngOnInit(): void {
     this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(paramMap => {
       if (!this.initialQueryApplied && !this.hasQueryParams(paramMap)) {

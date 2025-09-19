@@ -79,11 +79,6 @@
         </div>
       </div>
 
-      <!-- Acciones -->
-      <div class="filters-actions">
-        <button type="button" (click)="applyFilters()">Aplicar</button>
-        <button type="button" (click)="clearFilters()">Limpiar</button>
-      </div>
     </form>
   </aside>
 
@@ -117,22 +112,36 @@
     <!-- grilla de productos -->
     <section class="products" *ngIf="filteredProducts?.length; else emptyState">
       <article class="product-card" *ngFor="let product of pagedProducts; trackBy: trackById">
-        <div class="card-media">
+        <figure class="product-media">
           <img
             [ngSrc]="product.image"
             [alt]="product.name"
             width="300"
             height="400"
             loading="lazy" />
-        </div>
-        <div class="card-body">
-          <h3>{{ product.name }}</h3>
-          <p class="price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</p>
-          <p class="meta">
-            <span>{{ product.category }}</span>
-            <span>Talla: {{ product.size }}</span>
-            <span>Color: {{ product.color }}</span>
+        </figure>
+        <div class="product-details">
+          <div class="product-header">
+            <h3>{{ product.name }}</h3>
+            <p class="price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</p>
+          </div>
+          <div class="product-meta">
+            <span class="badge">{{ product.category }}</span>
+            <span class="badge">Talla {{ product.size }}</span>
+            <span class="badge badge-color">{{ product.color }}</span>
+          </div>
+          <p class="product-description">
+            Diseñado para acompañarte en cada momento especial. Disponible en color
+            {{ product.color | lowercase }} y talla {{ product.size }} con envío inmediato.
           </p>
+          <ul class="product-benefits">
+            <li>Envío gratis en compras mayores a $999</li>
+            <li>Cambios sin costo durante 30 días</li>
+          </ul>
+          <div class="card-actions">
+            <button type="button" class="primary">Agregar al carrito</button>
+            <button type="button" class="ghost">Ver detalles</button>
+          </div>
         </div>
       </article>
     </section>
