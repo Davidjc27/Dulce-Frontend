@@ -1,0 +1,23 @@
+@import '../info-shared.css';
+
+.page-hero--privacidad {
+  background: linear-gradient(135deg, #2d3a5f 0%, #4c5d93 45%, #90a3ff 100%);
+  color: #ffffff;
+}
+
+.page-hero--privacidad .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.rights-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.6rem;
+  color: #3b4263;
+}
+
+.info-spotlight--privacidad {
+  background: linear-gradient(135deg, rgba(45, 58, 95, 0.18), rgba(144, 163, 255, 0.18));
+  border: 1px solid rgba(76, 93, 147, 0.24);
+}

@@ -1,0 +1,56 @@
+@import '../info-shared.css';
+
+.page-hero--tiendas {
+  background: linear-gradient(135deg, #ff6fa3 0%, #ff9d6c 50%, #ffe29f 100%);
+  color: #ffffff;
+}
+
+.page-hero--tiendas .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.store-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.store-card {
+  background: #ffffff;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  box-shadow: 0 24px 60px -32px rgba(255, 111, 163, 0.45);
+  border: 1px solid rgba(255, 159, 122, 0.18);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.store-card header h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.store-card header p {
+  margin: 0.15rem 0 0;
+  color: #ff6fa3;
+  font-weight: 600;
+}
+
+.store-card__schedule {
+  margin: 0;
+  color: #6b7287;
+  font-size: 0.95rem;
+}
+
+.store-card ul {
+  margin: 0;
+  padding-left: 1rem;
+  color: #4d5673;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.info-spotlight--tiendas {
+  background: linear-gradient(135deg, rgba(255, 111, 163, 0.12), rgba(255, 157, 108, 0.15));
+  border: 1px solid rgba(255, 126, 147, 0.2);
+}   

@@ -1,0 +1,56 @@
+<div class="info-page">
+  <section class="info-hero page-hero--guia">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Encuentra tu ajuste ideal</span>
+      <h1 class="info-hero__title">Guía de tallas</h1>
+      <p class="info-hero__lead">
+        Diseñamos prendas que celebran todas las siluetas. Usa esta guía como referencia y contáctanos si deseas
+        un acompañamiento personalizado.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">📏 Medidas reales</span>
+        <span class="highlight-pill">🧵 Ajustes gratuitos</span>
+        <span class="highlight-pill">🤍 Asesoras expertas</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=900&q=80"
+        alt="Cinta métrica sobre un cuaderno de diseño" />
+    </div>
+  </section>
+
+  <section class="info-section" *ngFor="let guide of guides">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">{{ guide.title }}</h2>
+      <p class="info-section__lead">{{ guide.note }}</p>
+    </div>
+    <div class="size-table">
+      <div class="size-table__header">
+        <span>Talla</span>
+        <span>Busto</span>
+        <span>Cintura</span>
+        <span>Cadera</span>
+      </div>
+      <div class="size-table__row" *ngFor="let row of guide.rows">
+        <span>{{ row.size }}</span>
+        <span>{{ row.bust }}</span>
+        <span>{{ row.waist }}</span>
+        <span>{{ row.hip }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Tips rápidos</h2>
+      <p class="info-section__lead">Pequeñas acciones que marcan la diferencia en el calce de tus prendas Dulce.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let tip of tips">
+        <div class="info-card__icon">{{ tip.icon }}</div>
+        <h3 class="info-card__title">{{ tip.title }}</h3>
+        <p class="info-card__body">{{ tip.body }}</p>
+      </article>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,57 @@
+@import '../info-shared.css';
+
+.page-hero--about {
+  background: linear-gradient(135deg, #6150ff 0%, #b56dff 50%, #ffd7ff 100%);
+  color: #ffffff;
+}
+
+.page-hero--about .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.info-spotlight--about {
+  background: linear-gradient(135deg, rgba(97, 80, 255, 0.1), rgba(181, 109, 255, 0.15));
+  border: 1px solid rgba(126, 94, 255, 0.2);
+}
+
+.timeline {
+  display: grid;
+  gap: 1rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0.55rem;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(73, 102, 235, 0.8), rgba(73, 102, 235, 0));
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  left: -1.15rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid rgba(73, 102, 235, 0.75);
+}
+
+.timeline-item h4 {
+  margin: 0 0 0.3rem;
+  font-size: 1.1rem;
+}
+
+.timeline-item p {
+  margin: 0;
+  color: #5f6785;
+}

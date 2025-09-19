@@ -1,0 +1,36 @@
+@import '../info-shared.css';
+
+.page-hero--sostenibilidad {
+  background: linear-gradient(135deg, #0f9b8e 0%, #3fd19a 55%, #b4f6cf 100%);
+  color: #ffffff;
+}
+
+.page-hero--sostenibilidad .info-hero__lead {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+
+.info-spotlight--sostenibilidad {
+  background: linear-gradient(135deg, rgba(63, 209, 154, 0.15), rgba(15, 155, 142, 0.1));
+  border: 1px solid rgba(16, 151, 134, 0.18);
+}
+
+.metric-card {
+  padding: 1.1rem 1.35rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 155, 142, 0.12);
+  box-shadow: 0 16px 40px -32px rgba(16, 18, 40, 0.58);
+  display: grid;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.metric-card strong {
+  font-size: 1.6rem;
+}

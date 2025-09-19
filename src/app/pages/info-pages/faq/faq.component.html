@@ -1,0 +1,53 @@
+<div class="info-page">
+  <section class="info-hero page-hero--faq">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Estamos para ayudarte</span>
+      <h1 class="info-hero__title">Preguntas frecuentes</h1>
+      <p class="info-hero__lead">
+        Reunimos las preguntas más comunes para que encuentres respuestas en segundos. Si necesitas algo más,
+        nuestro equipo Dulce está a un mensaje de distancia.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">⏱️ Respuestas rápidas</span>
+        <span class="highlight-pill">🤗 Equipo humano</span>
+        <span class="highlight-pill">🛍️ Compras felices</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=900&q=80"
+        alt="Asesora de servicio al cliente sonriendo" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Resolvemos tus dudas</h2>
+      <p class="info-section__lead">
+        Haz clic en cada pregunta para desplegar la respuesta. Si no encuentras lo que buscas, revisa la sección
+        de contacto al final.
+      </p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item" *ngFor="let faq of faqs" open>
+        <summary>{{ faq.question }}</summary>
+        <p>{{ faq.answer }}</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">¿Necesitas acompañamiento?</h2>
+      <p class="info-section__lead">
+        Nuestro equipo dulce responde con calidez y soluciones. Escoge el canal que prefieras.
+      </p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let option of contactOptions">
+        <div class="info-card__icon">{{ option.icon }}</div>
+        <h3 class="info-card__title">{{ option.title }}</h3>
+        <p class="info-card__body">{{ option.body }}</p>
+      </article>
+    </div>
+  </section>
+</div>

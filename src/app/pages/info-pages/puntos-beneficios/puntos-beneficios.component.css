@@ -1,0 +1,63 @@
+@import '../info-shared.css';
+
+.page-hero--puntos {
+  background: linear-gradient(135deg, #ff7ac6 0%, #ff9bde 40%, #ffe0f7 100%);
+  color: #ffffff;
+}
+
+.page-hero--puntos .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.level-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.level-card {
+  background: #fff;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 24px 60px -34px rgba(255, 122, 198, 0.4);
+  border: 1px solid rgba(255, 155, 222, 0.25);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.level-card header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.level-card header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.level-card header span {
+  color: #ff7ac6;
+  font-weight: 600;
+}
+
+.level-card ul {
+  margin: 0;
+  padding-left: 1rem;
+  color: #4e516e;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ways-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.55rem;
+  color: #5a5f7e;
+}
+
+.info-spotlight--puntos {
+  background: linear-gradient(135deg, rgba(255, 122, 198, 0.14), rgba(255, 224, 247, 0.25));
+  border: 1px solid rgba(255, 155, 222, 0.24);
+}

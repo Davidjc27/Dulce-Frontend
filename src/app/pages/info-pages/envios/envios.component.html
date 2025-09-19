@@ -1,0 +1,69 @@
+<div class="info-page">
+  <section class="info-hero page-hero--envios">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Llegamos hasta ti</span>
+      <h1 class="info-hero__title">Envíos</h1>
+      <p class="info-hero__lead">
+        Despachamos desde nuestro centro logístico en Bogotá y aliados regionales para que tus prendas Dulce
+        lleguen puntuales y cuidadas.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🚀 Envío express</span>
+        <span class="highlight-pill">🌎 Cobertura nacional</span>
+        <span class="highlight-pill">📍 Rastreo en vivo</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=900&q=80"
+        alt="Persona entregando un paquete" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Tiempos y tarifas</h2>
+      <p class="info-section__lead">
+        Calculamos automáticamente la mejor opción según tu ubicación. Estas son las referencias generales.
+      </p>
+    </div>
+    <div class="zone-grid">
+      <article class="zone-card" *ngFor="let zone of zones">
+        <h3>{{ zone.region }}</h3>
+        <p class="zone-card__time">{{ zone.time }}</p>
+        <p class="zone-card__price">{{ zone.price }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Servicios adicionales</h2>
+      <p class="info-section__lead">Escoge la opción que se ajuste a tu ritmo.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let service of services">
+        <div class="info-card__icon">{{ service.icon }}</div>
+        <h3 class="info-card__title">{{ service.title }}</h3>
+        <p class="info-card__body">{{ service.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Antes de recibir tu pedido</h2>
+      <p class="info-section__lead">Sigue estos consejos para una entrega sin sorpresas.</p>
+    </div>
+    <ul class="tips-list">
+      <li *ngFor="let tip of tips">{{ tip }}</li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--envios">
+    <h3>Garantía de entrega</h3>
+    <p>
+      Si tu pedido no llega en el tiempo prometido, te regalamos envíos gratis en tu próxima compra y aceleramos
+      la gestión con el operador logístico.
+    </p>
+  </section>
+</div>

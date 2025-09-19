@@ -1,0 +1,42 @@
+@import '../info-shared.css';
+
+.page-hero--guia {
+  background: linear-gradient(135deg, #8c5cff 0%, #a96eff 40%, #f1d3ff 100%);
+  color: #ffffff;
+}
+
+.page-hero--guia .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.size-table {
+  border-radius: 1.4rem;
+  overflow: hidden;
+  box-shadow: 0 28px 60px -32px rgba(140, 92, 255, 0.4);
+  border: 1px solid rgba(140, 92, 255, 0.18);
+}
+
+.size-table__header,
+.size-table__row {
+  display: grid;
+  grid-template-columns: 0.8fr repeat(3, 1fr);
+  gap: 0.35rem;
+  padding: 0.85rem 1.5rem;
+  align-items: center;
+}
+
+.size-table__header {
+  background: rgba(140, 92, 255, 0.12);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.size-table__row:nth-child(even) {
+  background: rgba(241, 211, 255, 0.4);
+}
+
+.size-table__row span {
+  font-size: 0.98rem;
+  color: #4f4d71;
+}

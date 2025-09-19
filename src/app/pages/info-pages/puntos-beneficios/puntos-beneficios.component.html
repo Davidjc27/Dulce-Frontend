@@ -1,0 +1,68 @@
+<div class="info-page">
+  <section class="info-hero page-hero--puntos">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Celebremos juntas</span>
+      <h1 class="info-hero__title">Puntos y beneficios</h1>
+      <p class="info-hero__lead">
+        Haz parte del club Dulce y suma beneficios en cada compra, experiencia o recomendación.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🎁 Regalos</span>
+        <span class="highlight-pill">💫 Experiencias</span>
+        <span class="highlight-pill">🤍 Comunidad</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1543269865-4430f94492b2?auto=format&fit=crop&w=900&q=80"
+        alt="Amigas celebrando con bolsas de compras" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Niveles del programa</h2>
+      <p class="info-section__lead">Sube de nivel mientras disfrutas más privilegios.</p>
+    </div>
+    <div class="level-grid">
+      <article class="level-card" *ngFor="let level of levels">
+        <header>
+          <h3>{{ level.name }}</h3>
+          <span>{{ level.requirement }}</span>
+        </header>
+        <ul>
+          <li *ngFor="let perk of level.perks">{{ perk }}</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">¿Cómo acumulas puntos?</h2>
+      <p class="info-section__lead">Estas son algunas de las formas más rápidas.</p>
+    </div>
+    <ul class="ways-list">
+      <li *ngFor="let way of waysToEarn">{{ way }}</li>
+    </ul>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Lo que puedes redimir</h2>
+      <p class="info-section__lead">Escoge la recompensa que más te emocione.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let reward of rewards">
+        <h3 class="info-card__title">{{ reward.title }}</h3>
+        <p class="info-card__body">{{ reward.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-spotlight info-spotlight--puntos">
+    <h3>Bonus de bienvenida</h3>
+    <p>
+      Únete hoy y recibe 100 puntos adicionales al completar tu primer pedido superior a $180.000.
+    </p>
+  </section>
+</div>

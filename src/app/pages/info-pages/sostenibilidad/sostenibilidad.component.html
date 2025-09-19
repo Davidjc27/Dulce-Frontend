@@ -1,0 +1,78 @@
+<div class="info-page">
+  <section class="info-hero page-hero--sostenibilidad">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Impacto positivo</span>
+      <h1 class="info-hero__title">Sostenibilidad</h1>
+      <p class="info-hero__lead">
+        Diseñamos cada prenda pensando en el planeta y en las personas que la hacen posible. Nuestro compromiso
+        es reducir nuestra huella ambiental y generar bienestar en cada comunidad Dulce.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">♻️ Materiales circulares</span>
+        <span class="highlight-pill">🌎 Carbono reducido</span>
+        <span class="highlight-pill">🤍 Comunidades cuidadas</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=900&q=80"
+        alt="Tela sostenible colgada al sol" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Nuestras iniciativas</h2>
+      <p class="info-section__lead">
+        Acompañamos todo el ciclo de vida de nuestras prendas. Desde la selección de fibras hasta el programa de
+        reutilización, medimos y mejoramos cada indicador.
+      </p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let initiative of initiatives">
+        <div class="info-card__icon">{{ initiative.icon }}</div>
+        <h3 class="info-card__title">{{ initiative.title }}</h3>
+        <p class="info-card__body">{{ initiative.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Resultados medibles</h2>
+      <p class="info-section__lead">
+        Transparencia y seguimiento constante. Publicamos indicadores trimestrales para que conozcas nuestro
+        progreso.
+      </p>
+    </div>
+    <div class="metric-grid">
+      <article class="metric-card" *ngFor="let metric of metrics">
+        <strong>{{ metric.value }}</strong>
+        <span>{{ metric.label }}</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Compromisos 2025</h2>
+      <p class="info-section__lead">
+        Estas metas guían nuestro plan maestro de sostenibilidad y articulan alianzas estratégicas con nuestra
+        red de proveedores.
+      </p>
+    </div>
+    <ul class="detail-list">
+      <li *ngFor="let commitment of commitments">
+        <strong>{{ commitment.title }}</strong>
+        <span>{{ commitment.description }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--sostenibilidad">
+    <h3>Tu prenda Dulce tiene segunda vida</h3>
+    <p>
+      Lleva tus prendas Dulce usadas a cualquiera de nuestras tiendas y recibe puntos extra para tu próxima
+      compra. Nuestro equipo las repara o transforma para donar a comunidades en el Pacífico colombiano.
+    </p>
+  </section>
+</div>

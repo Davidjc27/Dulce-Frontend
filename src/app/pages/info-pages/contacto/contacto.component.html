@@ -1,0 +1,61 @@
+<div class="info-page">
+  <section class="info-hero page-hero--contacto">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Conversemos</span>
+      <h1 class="info-hero__title">Contáctanos</h1>
+      <p class="info-hero__lead">
+        Estamos listas para acompañarte antes, durante y después de tu compra. Escríbenos, llámanos o agenda una
+        cita; respondemos con calidez y soluciones reales.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🤍 Personas reales</span>
+        <span class="highlight-pill">⚡ Respuesta en minutos</span>
+        <span class="highlight-pill">🌎 Atención en todo el país</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80"
+        alt="Asesora de Dulce atendiendo una videollamada" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Canales de atención</h2>
+      <p class="info-section__lead">
+        Elige el canal que prefieras. Nuestro tiempo promedio de respuesta es de 5 minutos en horarios hábiles.
+      </p>
+    </div>
+    <div class="info-grid">
+      <article class="contact-card" *ngFor="let channel of channels">
+        <div class="contact-card__icon">{{ channel.icon }}</div>
+        <h3>{{ channel.title }}</h3>
+        <strong>{{ channel.detail }}</strong>
+        <p>{{ channel.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">¿En qué podemos ayudarte?</h2>
+      <p class="info-section__lead">
+        Cuéntanos qué necesitas y te contactamos con el equipo indicado.
+      </p>
+    </div>
+    <div class="visit-grid">
+      <article *ngFor="let reason of visitReasons">
+        <h3>{{ reason.title }}</h3>
+        <p>{{ reason.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-spotlight info-spotlight--contacto">
+    <h3>Horario extendido</h3>
+    <p>
+      De lunes a sábado te acompañamos de 8 a.m. a 10 p.m. Domingos y festivos estamos disponibles de 9 a.m. a
+      6 p.m. También puedes escribirnos fuera de horario y te responderemos al iniciar la jornada.
+    </p>
+  </section>
+</div>

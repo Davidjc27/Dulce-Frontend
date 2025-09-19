@@ -1,0 +1,55 @@
+@import '../info-shared.css';
+
+.page-hero--envios {
+  background: linear-gradient(135deg, #5ac8fa 0%, #8be7ff 45%, #e2f9ff 100%);
+  color: #ffffff;
+}
+
+.page-hero--envios .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.zone-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.zone-card {
+  background: #fff;
+  border-radius: 1.2rem;
+  padding: 1.35rem;
+  box-shadow: 0 22px 55px -32px rgba(90, 200, 250, 0.45);
+  border: 1px solid rgba(90, 200, 250, 0.2);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.zone-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.zone-card__time {
+  margin: 0;
+  color: #41a9cf;
+  font-weight: 600;
+}
+
+.zone-card__price {
+  margin: 0;
+  color: #5a6780;
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.6rem;
+  color: #4a5b71;
+}
+
+.info-spotlight--envios {
+  background: linear-gradient(135deg, rgba(90, 200, 250, 0.12), rgba(226, 249, 255, 0.25));
+  border: 1px solid rgba(90, 200, 250, 0.24);
+}

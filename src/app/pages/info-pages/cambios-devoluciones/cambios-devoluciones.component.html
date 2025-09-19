@@ -1,0 +1,58 @@
+<div class="info-page">
+  <section class="info-hero page-hero--cambios">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Compras sin preocupaciones</span>
+      <h1 class="info-hero__title">Cambios y devoluciones</h1>
+      <p class="info-hero__lead">
+        Queremos que ames cada prenda. Si necesitas un cambio o devolución, lo haremos fácil y rápido. Aquí te
+        contamos cómo funciona.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">📦 Recogida en casa</span>
+        <span class="highlight-pill">💳 Devoluciones ágiles</span>
+        <span class="highlight-pill">😌 Sin complicaciones</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1542293787938-4d2226c12e79?auto=format&fit=crop&w=900&q=80"
+        alt="Caja de envío con ropa doblada" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Proceso paso a paso</h2>
+      <p class="info-section__lead">Solo necesitas tu número de orden y la prenda en perfecto estado.</p>
+    </div>
+    <div class="stepper">
+      <article class="step" *ngFor="let step of steps">
+        <span class="step__number">{{ step.number }}</span>
+        <div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.body }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Políticas clave</h2>
+      <p class="info-section__lead">Lee estos puntos importantes antes de programar tu cambio o devolución.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let policy of policies">
+        <h3 class="info-card__title">{{ policy.title }}</h3>
+        <p class="info-card__body">{{ policy.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-spotlight info-spotlight--cambios">
+    <h3>Garantía Dulce</h3>
+    <p>
+      Si tu prenda presenta una novedad de calidad dentro de los primeros 60 días, nuestro taller la revisará y
+      reparará sin costo o la reemplazaremos por una nueva.
+    </p>
+  </section>
+</div>

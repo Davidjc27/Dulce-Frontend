@@ -1,0 +1,64 @@
+<div class="info-page">
+  <section class="info-hero page-hero--about">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Nuestra marca</span>
+      <h1 class="info-hero__title">Quiénes somos</h1>
+      <p class="info-hero__lead">
+        Somos un colectivo creativo colombiano que diseña moda dulce, consciente y llena de movimiento para
+        mujeres y niñas. Creamos piezas que abrazan la comodidad del día a día sin perder la magia de sentirse
+        únicas.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill" *ngFor="let highlight of highlights">
+          <span>{{ highlight.icon }}</span>
+          <span>{{ highlight.text }}</span>
+        </span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+        alt="Equipo creativo de Dulce trabajando en nuevos diseños" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Diseñamos prendas con alma latina</h2>
+      <p class="info-section__lead">
+        Nuestro proceso comienza con escuchar a nuestra comunidad. Observamos, conversamos y experimentamos
+        con texturas y colores que evoquen recuerdos felices y miradas al futuro.
+      </p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let value of values">
+        <div class="info-card__icon">{{ value.icon }}</div>
+        <h3 class="info-card__title">{{ value.title }}</h3>
+        <p class="info-card__body">{{ value.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Nuestra historia</h2>
+      <p class="info-section__lead">
+        Crecimos gracias a la confianza de familias que buscaban moda cercana y transparente. Hoy seguimos
+        soñando en grande sin olvidar nuestras raíces artesanales.
+      </p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item" *ngFor="let item of timeline">
+        <h4>{{ item.year }} · {{ item.title }}</h4>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-spotlight info-spotlight--about">
+    <h3>Seguimos creciendo contigo</h3>
+    <p>
+      Queremos que cada visita a Dulce se sienta como llegar a casa. Te invitamos a co-crear nuevas piezas,
+      participar en nuestros talleres y escribir las próximas páginas de nuestra historia.
+    </p>
+  </section>
+</div>

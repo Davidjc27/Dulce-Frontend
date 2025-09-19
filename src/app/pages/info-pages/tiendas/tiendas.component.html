@@ -1,0 +1,68 @@
+<div class="info-page">
+  <section class="info-hero page-hero--tiendas">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Experiencias Dulce</span>
+      <h1 class="info-hero__title">Tiendas</h1>
+      <p class="info-hero__lead">
+        Espacios pensados para que vivas la moda con todos tus sentidos. Visítanos y descubre rincones para crear,
+        jugar y disfrutar en familia.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🧁 Cafés de autor</span>
+        <span class="highlight-pill">🎨 Talleres creativos</span>
+        <span class="highlight-pill">📦 Pick up express</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1521336575822-6da63fb45455?auto=format&fit=crop&w=900&q=80"
+        alt="Interior colorido de una tienda de moda" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Encuentra tu tienda Dulce</h2>
+      <p class="info-section__lead">
+        Cada tienda es un mundo diferente. Todas cuentan con anfitrionas que te acompañan desde el primer hola
+        hasta la despedida.
+      </p>
+    </div>
+    <div class="store-grid">
+      <article class="store-card" *ngFor="let store of stores">
+        <header>
+          <h3>{{ store.city }}</h3>
+          <p>{{ store.address }}</p>
+        </header>
+        <p class="store-card__schedule">{{ store.schedule }}</p>
+        <ul>
+          <li *ngFor="let feature of store.features">{{ feature }}</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Servicios que te enamoran</h2>
+      <p class="info-section__lead">
+        Disfruta de atenciones únicas pensadas para consentirte. Agenda o pregunta en tienda por nuestras
+        experiencias.
+      </p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let service of services">
+        <div class="info-card__icon">{{ service.icon }}</div>
+        <h3 class="info-card__title">{{ service.title }}</h3>
+        <p class="info-card__body">{{ service.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-spotlight info-spotlight--tiendas">
+    <h3>Reserva tu visita guiada</h3>
+    <p>
+      Escríbenos por WhatsApp y programa un recorrido privado para conocer nuestra colección cápsula, personalizar
+      prendas y disfrutar de un dulce detalle sorpresa.
+    </p>
+  </section>
+</div>

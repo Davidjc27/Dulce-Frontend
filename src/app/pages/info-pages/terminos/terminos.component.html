@@ -1,0 +1,66 @@
+<div class="info-page">
+  <section class="info-hero page-hero--terminos">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Relación transparente</span>
+      <h1 class="info-hero__title">Términos y condiciones</h1>
+      <p class="info-hero__lead">
+        Queremos que disfrutes tu experiencia con total claridad. Estos términos describen cómo operamos, qué
+        compromisos asumimos y cuáles son tus derechos como cliente Dulce.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">📘 Claridad</span>
+        <span class="highlight-pill">🤝 Compromiso</span>
+        <span class="highlight-pill">⚖️ Legalidad</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=900&q=80"
+        alt="Firma de documento" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Aspectos generales</h2>
+      <p class="info-section__lead">Resumen de los puntos más importantes de nuestras condiciones.</p>
+    </div>
+    <ul class="detail-list">
+      <li *ngFor="let clause of clauses">
+        <strong>{{ clause.title }}</strong>
+        <span>{{ clause.description }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Nuestros compromisos</h2>
+      <p class="info-section__lead">Lo que puedes esperar siempre de Dulce.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let commitment of commitments">
+        <div class="info-card__icon">{{ commitment.icon }}</div>
+        <h3 class="info-card__title">{{ commitment.title }}</h3>
+        <p class="info-card__body">{{ commitment.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Tus responsabilidades</h2>
+      <p class="info-section__lead">Mantener una comunidad segura es labor de todos.</p>
+    </div>
+    <ul class="rights-list">
+      <li *ngFor="let responsibility of userResponsibilities">{{ responsibility }}</li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--terminos">
+    <h3>Actualizaciones</h3>
+    <p>
+      Podremos actualizar estos términos cuando lancemos nuevos servicios. Te avisaremos por correo y en esta
+      página antes de que los cambios entren en vigencia.
+    </p>
+  </section>
+</div>

@@ -1,0 +1,23 @@
+@import '../info-shared.css';
+
+.page-hero--terminos {
+  background: linear-gradient(135deg, #ff914d 0%, #ffa953 40%, #ffe1a8 100%);
+  color: #ffffff;
+}
+
+.page-hero--terminos .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.rights-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.6rem;
+  color: #4f4633;
+}
+
+.info-spotlight--terminos {
+  background: linear-gradient(135deg, rgba(255, 145, 77, 0.12), rgba(255, 225, 168, 0.18));
+  border: 1px solid rgba(255, 169, 83, 0.22);
+}

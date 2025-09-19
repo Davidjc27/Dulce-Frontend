@@ -1,0 +1,55 @@
+<div class="info-page">
+  <section class="info-hero page-hero--pagos">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Checkout seguro</span>
+      <h1 class="info-hero__title">Métodos de pago</h1>
+      <p class="info-hero__lead">
+        Pagos rápidos, protegidos y flexibles para que elijas la opción que más se ajuste a ti.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🔒 Certificación PCI</span>
+        <span class="highlight-pill">⚡ Aprobación inmediata</span>
+        <span class="highlight-pill">🎁 Cuotas sin interés</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80"
+        alt="Persona sosteniendo tarjetas de crédito" />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Opciones disponibles</h2>
+      <p class="info-section__lead">Selecciona tu método favorito durante el checkout.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let option of options">
+        <div class="info-card__icon">{{ option.icon }}</div>
+        <h3 class="info-card__title">{{ option.title }}</h3>
+        <p class="info-card__body">{{ option.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Financiación y convenios</h2>
+      <p class="info-section__lead">Opciones especiales para que compres sin preocupaciones.</p>
+    </div>
+    <ul class="detail-list">
+      <li *ngFor="let item of financing">
+        <strong>{{ item.title }}</strong>
+        <span>{{ item.description }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--pagos">
+    <h3>Soporte de pagos 24/7</h3>
+    <p>
+      ¿Tu transacción fue rechazada? Escríbenos al instante por chat o WhatsApp y revisamos con la pasarela para
+      liberar tu compra.
+    </p>
+  </section>
+</div>

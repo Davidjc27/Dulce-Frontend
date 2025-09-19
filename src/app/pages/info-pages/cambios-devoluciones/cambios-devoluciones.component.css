@@ -1,0 +1,46 @@
+@import '../info-shared.css';
+
+.page-hero--cambios {
+  background: linear-gradient(135deg, #27b0ff 0%, #69d1ff 50%, #d8f3ff 100%);
+  color: #ffffff;
+}
+
+.page-hero--cambios .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.stepper {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 20px 60px -34px rgba(39, 176, 255, 0.4);
+  border: 1px solid rgba(39, 176, 255, 0.18);
+}
+
+.step__number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #27b0ff;
+}
+
+.step h3 {
+  margin: 0 0 0.35rem;
+}
+
+.step p {
+  margin: 0;
+  color: #5a6780;
+}
+
+.info-spotlight--cambios {
+  background: linear-gradient(135deg, rgba(39, 176, 255, 0.12), rgba(105, 209, 255, 0.16));
+  border: 1px solid rgba(39, 176, 255, 0.2);
+}
