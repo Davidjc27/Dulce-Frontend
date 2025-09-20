@@ -67,39 +67,58 @@ export class NavbarComponent {
   }
 
    navigateToCatalog(event: Event, overrides: Params): void {
-  // permite abrir en nueva pestaña con Ctrl/Cmd/Shift sin interferir
-  if (event instanceof MouseEvent) {
-    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+    if (this.shouldLetBrowserHandle(event)) {
       return;
     }
-  }
-  if (event instanceof KeyboardEvent) {
-    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+
+    event.preventDefault();
+    this.onNavClick();
+
+    const target = this.buildCatalogTarget(overrides);
+    this.catalogNavigation.trigger(target.queryParams);
+
+    if (this.isBrowser()) {
+      window.location.assign(target.href);
       return;
     }
+
+    void this.router.navigateByUrl(target.urlTree);
   }
-
-  event.preventDefault();
-  this.onNavClick();
-
-  const queryParams = this.resetParams(overrides);
-  this.catalogNavigation.trigger(queryParams);
-  void this.router.navigate(['/catalogo'], {
-    queryParams,
-    queryParamsHandling: ''  // no merges
-    // replaceUrl: false (por defecto)
-  });
-}
 
   buildCatalogHref(overrides: Params): string {
-    return this.router.serializeUrl(this.buildCatalogUrlTree(overrides));
+    return this.buildCatalogTarget(overrides).href;
   }
 
-  private buildCatalogUrlTree(overrides: Params): UrlTree {
-    return this.router.createUrlTree(['/catalogo'], {
-      queryParams: this.resetParams(overrides)
+  private buildCatalogTarget(overrides: Params): {
+    queryParams: Params;
+    urlTree: UrlTree;
+    href: string;
+  } {
+    const queryParams = this.resetParams(overrides);
+    const urlTree = this.router.createUrlTree(['/catalogo'], {
+      queryParams
     });
+    const href = this.router.serializeUrl(urlTree);
+
+    return { queryParams, urlTree, href };
   }
+
+  private shouldLetBrowserHandle(event: Event): boolean {
+    if (event instanceof MouseEvent) {
+      return event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
+    }
+
+    if (event instanceof KeyboardEvent) {
+      return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
+    }
+
+    return false;
+  }
+
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof window.location !== 'undefined';
+  }
+  
   /** Cierra el dropdown después del click en un item del menú */
   onNavClick(): void {
     this.activeMenu = null;
