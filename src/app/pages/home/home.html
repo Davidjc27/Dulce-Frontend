@@ -22,7 +22,12 @@
 </section>
 
 <section class="spotlights">
-  <a class="spotlight-card spotlight-card--dama" routerLink="/catalogo?cat=dama" aria-label="Ver novedades de Dama">
+  <a
+    class="spotlight-card spotlight-card--dama"
+    [attr.href]="buildCatalogHref(spotlightFilters.novedadesDama)"
+    (click)="navigateToCatalog($event, spotlightFilters.novedadesDama)"
+    aria-label="Ver novedades de Dama"
+  >
     <div class="spotlight-badge">NEW</div>
     <div class="spotlight-content">
       <h3>Novedades Dama</h3>
@@ -30,7 +35,12 @@
     </div>
   </a>
 
-  <a class="spotlight-card spotlight-card--nina" routerLink="/catalogo?cat=nina" aria-label="Ver novedades de Niña">
+  <a
+    class="spotlight-card spotlight-card--nina"
+    [attr.href]="buildCatalogHref(spotlightFilters.novedadesNina)"
+    (click)="navigateToCatalog($event, spotlightFilters.novedadesNina)"
+    aria-label="Ver novedades de Niña"
+  >
     <div class="spotlight-badge">NEW</div>
     <div class="spotlight-content">
       <h3>Novedades Niña</h3>
@@ -40,9 +50,15 @@
 </section>
 
 <section class="products" *ngIf="products?.length">
-  <div class="product-card" *ngFor="let product of products">
+  <a
+    class="product-card"
+    *ngFor="let product of products"
+    [attr.href]="buildCatalogHref(product.filter)"
+    (click)="navigateToCatalog($event, product.filter)"
+    [attr.aria-label]="'Ver ' + product.name"
+  >
     <img [src]="product.image" [alt]="product.name" />
     <h3>{{ product.name }}</h3>
     <p class="price">{{ product.price | currency:'USD' }}</p>
-  </div>
+  </a>
 </section>

@@ -3,19 +3,6 @@
     <div class="brand">
       <!-- Logo: siempre lleva a /home -->
       <a class="logo" routerLink="/home" aria-label="Ir al inicio">Dulce</a>
-
-      <!-- Botón "Inicio" más bonito; solo se muestra fuera de /home -->
-      <a
-        class="home-indicator"
-        *ngIf="!isHome"
-        routerLink="/home"
-        aria-label="Volver a inicio"
-      >
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
-          <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z" fill="currentColor"></path>
-        </svg>
-        <span>Inicio</span>
-      </a>
     </div>
 
     <ul class="menu">
