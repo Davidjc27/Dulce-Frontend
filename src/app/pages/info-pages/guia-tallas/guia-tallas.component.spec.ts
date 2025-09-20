@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GuiaTallas } from './guia-tallas';
+import { GuiaTallasPageComponent } from './guia-tallas.component';
 
-describe('GuiaTallas', () => {
-  let component: GuiaTallas;
-  let fixture: ComponentFixture<GuiaTallas>;
+describe('GuiaTallasPageComponent', () => {
+  let component: GuiaTallasPageComponent;
+  let fixture: ComponentFixture<GuiaTallasPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GuiaTallas]
-    })
-    .compileComponents();
+      imports: [GuiaTallasPageComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(GuiaTallas);
+    fixture = TestBed.createComponent(GuiaTallasPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

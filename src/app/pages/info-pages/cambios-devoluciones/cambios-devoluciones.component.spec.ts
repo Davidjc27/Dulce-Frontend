@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CambiosDevoluciones } from './cambios-devoluciones';
+import { CambiosDevolucionesPageComponent } from './cambios-devoluciones.component';
 
-describe('CambiosDevoluciones', () => {
-  let component: CambiosDevoluciones;
-  let fixture: ComponentFixture<CambiosDevoluciones>;
+describe('CambiosDevolucionesPageComponent', () => {
+  let component: CambiosDevolucionesPageComponent;
+  let fixture: ComponentFixture<CambiosDevolucionesPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CambiosDevoluciones]
-    })
-    .compileComponents();
+      imports: [CambiosDevolucionesPageComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(CambiosDevoluciones);
+    fixture = TestBed.createComponent(CambiosDevolucionesPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

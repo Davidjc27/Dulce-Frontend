@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PuntosBeneficios } from './puntos-beneficios';
+import { PuntosBeneficiosPageComponent } from './puntos-beneficios.component';
 
-describe('PuntosBeneficios', () => {
-  let component: PuntosBeneficios;
-  let fixture: ComponentFixture<PuntosBeneficios>;
+describe('PuntosBeneficiosPageComponent', () => {
+  let component: PuntosBeneficiosPageComponent;
+  let fixture: ComponentFixture<PuntosBeneficiosPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PuntosBeneficios]
-    })
-    .compileComponents();
+      imports: [PuntosBeneficiosPageComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(PuntosBeneficios);
+    fixture = TestBed.createComponent(PuntosBeneficiosPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

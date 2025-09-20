@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Sostenibilidad } from './sostenibilidad';
+import { SostenibilidadPageComponent } from './sostenibilidad.component';
 
-describe('Sostenibilidad', () => {
-  let component: Sostenibilidad;
-  let fixture: ComponentFixture<Sostenibilidad>;
+describe('SostenibilidadPageComponent', () => {
+  let component: SostenibilidadPageComponent;
+  let fixture: ComponentFixture<SostenibilidadPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Sostenibilidad]
-    })
-    .compileComponents();
+      imports: [SostenibilidadPageComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(Sostenibilidad);
+    fixture = TestBed.createComponent(SostenibilidadPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
