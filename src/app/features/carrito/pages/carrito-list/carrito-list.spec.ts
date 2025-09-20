@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { CarritoListComponent } from './carrito-list';
 
@@ -8,9 +9,11 @@ describe('CarritoList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CarritoListComponent]
-    })
-    .compileComponents();
+      imports: [
+        CarritoListComponent,           // standalone
+        RouterTestingModule.withRoutes([])
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CarritoListComponent);
     component = fixture.componentInstance;
