@@ -1,7 +1,25 @@
 <nav class="navbar">
   <div class="navbar-inner">
-    <div class="logo">Dulce</div>
+    <div class="brand">
+      <!-- Logo: siempre lleva a /home -->
+      <a class="logo" routerLink="/home" aria-label="Ir al inicio">Dulce</a>
+
+      <!-- Botón "Inicio" más bonito; solo se muestra fuera de /home -->
+      <a
+        class="home-indicator"
+        *ngIf="!isHome"
+        routerLink="/home"
+        aria-label="Volver a inicio"
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z" fill="currentColor"></path>
+        </svg>
+        <span>Inicio</span>
+      </a>
+    </div>
+
     <ul class="menu">
+      <!-- Promociones -->
       <li
         class="menu-item has-dropdown menu-promociones"
         [class.is-open]="activeMenu === 'promociones'"
@@ -10,13 +28,28 @@
         (focusin)="openMenu('promociones')"
         (focusout)="handleFocusOut($event, 'promociones')"
       >
-        <a class="menu-link" routerLink="/home">
+        <a
+          class="menu-link"
+          [routerLink]="['/catalogo']"
+          [queryParams]="resetParams(catalogFilters.promotions)"
+          (click)="onNavClick()"
+        >
           <span class="menu-label">Promociones</span>
         </a>
         <ul class="dropdown">
-          <li><a routerLink="/catalogo">Llévame a las promociones</a></li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.promotions)"
+              (click)="onNavClick()"
+            >
+              Llévame a las promociones
+            </a>
+          </li>
         </ul>
       </li>
+
+      <!-- Nuevo -->
       <li
         class="menu-item has-dropdown menu-nuevo"
         [class.is-open]="activeMenu === 'nuevo'"
@@ -25,13 +58,28 @@
         (focusin)="openMenu('nuevo')"
         (focusout)="handleFocusOut($event, 'nuevo')"
       >
-        <a class="menu-link" routerLink="/home">
+        <a
+          class="menu-link"
+          [routerLink]="['/catalogo']"
+          [queryParams]="resetParams(catalogFilters.newest)"
+          (click)="onNavClick()"
+        >
           <span class="menu-label">Nuevo</span>
         </a>
         <ul class="dropdown">
-          <li><a routerLink="/catalogo">Tendencias</a></li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.newest)"
+              (click)="onNavClick()"
+            >
+              Tendencias
+            </a>
+          </li>
         </ul>
       </li>
+
+      <!-- Dama -->
       <li
         class="menu-item has-dropdown menu-dama"
         [class.is-open]="activeMenu === 'dama'"
@@ -40,16 +88,55 @@
         (focusin)="openMenu('dama')"
         (focusout)="handleFocusOut($event, 'dama')"
       >
-        <a class="menu-link" routerLink="/catalogo">
+        <a
+          class="menu-link"
+          [routerLink]="['/catalogo']"
+          [queryParams]="resetParams(catalogFilters.dama)"
+          (click)="onNavClick()"
+        >
           <span class="menu-label">Dama</span>
         </a>
         <ul class="dropdown">
-          <li><a routerLink="/catalogo">Pijamas</a></li>
-          <li><a routerLink="/catalogo">Blusas</a></li>
-          <li><a routerLink="/catalogo">Camisetas</a></li>
-          <li><a routerLink="/catalogo">Leggins</a></li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.damaPijamas)"
+              (click)="onNavClick()"
+            >
+              Pijamas
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.damaBlusas)"
+              (click)="onNavClick()"
+            >
+              Blusas
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.damaCamisetas)"
+              (click)="onNavClick()"
+            >
+              Camisetas
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.damaLeggins)"
+              (click)="onNavClick()"
+            >
+              Leggins
+            </a>
+          </li>
         </ul>
       </li>
+
+      <!-- Niña -->
       <li
         class="menu-item has-dropdown menu-nina"
         [class.is-open]="activeMenu === 'nina'"
@@ -58,16 +145,55 @@
         (focusin)="openMenu('nina')"
         (focusout)="handleFocusOut($event, 'nina')"
       >
-        <a class="menu-link" routerLink="/catalogo">
+        <a
+          class="menu-link"
+          [routerLink]="['/catalogo']"
+          [queryParams]="resetParams(catalogFilters.nina)"
+          (click)="onNavClick()"
+        >
           <span class="menu-label">Niña</span>
         </a>
         <ul class="dropdown">
-          <li><a routerLink="/catalogo">Pijamas</a></li>
-          <li><a routerLink="/catalogo">Blusas</a></li>
-          <li><a routerLink="/catalogo">Camisetas</a></li>
-          <li><a routerLink="/catalogo">Leggins</a></li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.ninaPijamas)"
+              (click)="onNavClick()"
+            >
+              Pijamas
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.ninaBlusas)"
+              (click)="onNavClick()"
+            >
+              Blusas
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.ninaCamisetas)"
+              (click)="onNavClick()"
+            >
+              Camisetas
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.ninaLeggins)"
+              (click)="onNavClick()"
+            >
+              Leggins
+            </a>
+          </li>
         </ul>
       </li>
+
+      <!-- Acceso -->
       <li
         class="menu-item has-dropdown menu-acceso"
         [class.is-open]="activeMenu === 'acceso'"
@@ -76,11 +202,24 @@
         (focusin)="openMenu('acceso')"
         (focusout)="handleFocusOut($event, 'acceso')"
       >
-        <a class="menu-link" routerLink="/home">
+        <a
+          class="menu-link"
+          [routerLink]="['/catalogo']"
+          [queryParams]="resetParams(catalogFilters.acceso)"
+          (click)="onNavClick()"
+        >
           <span class="menu-label">Acceso</span>
         </a>
         <ul class="dropdown">
-          <li><a routerLink="/home">Acceso empleados</a></li>
+          <li>
+            <a
+              [routerLink]="['/catalogo']"
+              [queryParams]="resetParams(catalogFilters.acceso)"
+              (click)="onNavClick()"
+            >
+              Acceso empleados
+            </a>
+          </li>
         </ul>
       </li>
     </ul>
