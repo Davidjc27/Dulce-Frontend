@@ -14,6 +14,7 @@ import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 type Category = 'Dama' | 'Niña';
+type SubCategory = 'Pijamas' | 'Blusas' | 'Camisetas' | 'Leggins';
 type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | '4' | '6' | '8' | '10' | '12' | '14';
 type Color = 'Negro' | 'Blanco' | 'Azul' | 'Rojo' | 'Verde' | 'Amarillo' | 'Morado' | 'Rosa';
 type SortOptionValue = 'relevance' | 'priceAsc' | 'priceDesc' | 'newest';
@@ -24,19 +25,21 @@ export interface Product {
   price: number;
   image: string;
   category: Category;
+  subCategory: SubCategory;
   size: Size;
   color: Color;
   createdAt: string;
 }
 
 interface FilterChip {
-  type: 'categories' | 'sizes' | 'colors' | 'price';
+  type: 'categories' | 'subCategories' | 'sizes' | 'colors' | 'price';
   value: string;
   label: string;
 }
 
 interface StoredFiltersState {
   categories: Category[];
+  subCategories: SubCategory[];
   sizes: Size[];
   colors: Color[];
   priceMin: number | null;
@@ -66,6 +69,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   private readonly itemsPerPage = 12; 
 
   readonly categoryOptions: Category[] = ['Dama', 'Niña'];
+  readonly subCategoryOptions: SubCategory[] = ['Pijamas', 'Blusas', 'Camisetas', 'Leggins'];
   readonly sizeOptions: Size[] = ['XS', 'S', 'M', 'L', 'XL', '4', '6', '8', '10', '12', '14'];
   readonly colorOptions: Color[] = ['Negro', 'Blanco', 'Azul', 'Rojo', 'Verde', 'Amarillo', 'Morado', 'Rosa'];
   readonly sortOptions: { value: SortOptionValue; label: string }[] = [
@@ -77,6 +81,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
 
   readonly filtersForm = new FormGroup({
     categories: new FormControl<Category[]>([], { nonNullable: true }),
+     subCategories: new FormControl<SubCategory[]>([], { nonNullable: true }),
     sizes: new FormControl<Size[]>([], { nonNullable: true }),
     colors: new FormControl<Color[]>([], { nonNullable: true }),
     priceMin: new FormControl<number | null>(null),
@@ -87,163 +92,179 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   readonly allProducts: Product[] = [
     {
       id: 'p-001',
-      name: 'Vestido satinado verde',
-      price: 1299,
-      image: 'https://picsum.photos/seed/camisasdama-001/300/400',
+      name: 'Pijama satín suave dama',
+      price: 1249,
+      image: 'https://picsum.photos/seed/dama-pijama-001/300/400',
       category: 'Dama',
-      size: 'M',
-      color: 'Verde',
-      createdAt: '2024-03-15T10:00:00Z'
-    },
-    {
-      id: 'p-002',
-      name: 'Blusa de encaje negra',
-      price: 749,
-      image: 'https://picsum.photos/seed/camisasdama-002/300/400',
-      category: 'Dama',
-      size: 'S',
-      color: 'Negro',
-      createdAt: '2024-02-28T15:30:00Z'
-    },
-    {
-      id: 'p-003',
-      name: 'Conjunto casual rojo',
-      price: 899,
-      image: 'https://picsum.photos/seed/camisasdama-003/300/400',
-      category: 'Dama',
-      size: 'L',
-      color: 'Rojo',
-      createdAt: '2024-01-22T09:15:00Z'
-    },
-    {
-      id: 'p-004',
-      name: 'Chamarra denim clásica',
-      price: 1199,
-      image: 'https://picsum.photos/seed/camisasdama-004/300/400',
-      category: 'Dama',
-      size: 'XL',
-      color: 'Azul',
-      createdAt: '2023-12-10T12:00:00Z'
-    },
-    {
-      id: 'p-005',
-      name: 'Vestido blanco floral',
-      price: 1099,
-      image: 'https://picsum.photos/seed/camisasdama-005/300/400',
-      category: 'Dama',
-      size: 'XS',
-      color: 'Blanco',
-      createdAt: '2024-04-04T18:45:00Z'
-    },
-    {
-      id: 'p-006',
-      name: 'Suéter amarillo suave',
-      price: 659,
-      image: 'https://picsum.photos/seed/camisasdama-006/300/400',
-      category: 'Dama',
-      size: 'M',
-      color: 'Amarillo',
-      createdAt: '2024-02-12T08:10:00Z'
-    },
-    {
-      id: 'p-007',
-      name: 'Vestido tutú rosa',
-      price: 549,
-      image: 'https://picsum.photos/seed/camisasdama-007/300/400',
-      category: 'Niña',
-      size: '6',
-      color: 'Rosa',
-      createdAt: '2024-03-28T16:20:00Z'
-    },
-    {
-      id: 'p-008',
-      name: 'Conjunto morado brillante',
-      price: 599,
-      image: 'https://picsum.photos/seed/camisasdama-008/300/400',
-      category: 'Niña',
-      size: '8',
-      color: 'Morado',
-      createdAt: '2024-01-30T11:35:00Z'
-    },
-    {
-      id: 'p-009',
-      name: 'Chaqueta azul deportiva',
-      price: 689,
-      image: 'https://picsum.photos/seed/camisasdama-009/300/400',
-      category: 'Niña',
-      size: '10',
-      color: 'Azul',
-      createdAt: '2023-11-18T14:05:00Z'
-    },
-    {
-      id: 'p-010',
-      name: 'Conjunto verde bosque',
-      price: 639,
-      image: 'https://picsum.photos/seed/camisasdama-010/300/400',
-      category: 'Niña',
-      size: '12',
-      color: 'Verde',
-      createdAt: '2023-12-27T19:00:00Z'
-    },
-    {
-      id: 'p-011',
-      name: 'Vestido rojo festivo',
-      price: 719,
-      image: 'https://picsum.photos/seed/camisasdama-011/300/400',
-      category: 'Niña',
-      size: '14',
-      color: 'Rojo',
-      createdAt: '2024-03-08T20:10:00Z'
-    },
-    {
-      id: 'p-012',
-      name: 'Blazer rosa pastel',
-      price: 1349,
-      image: 'https://picsum.photos/seed/camisasdama-012/300/400',
-      category: 'Dama',
+      subCategory: 'Pijamas',
       size: 'M',
       color: 'Rosa',
       createdAt: '2024-04-12T07:50:00Z'
     },
     {
-      id: 'p-013',
-      name: 'Falda plisada morada',
-      price: 799,
-      image: 'https://picsum.photos/seed/camisasdama-013/300/400',
+      id: 'p-002',
+      name: 'Pijama algodón fresco dama',
+      price: 999,
+      image: 'https://picsum.photos/seed/dama-pijama-002/300/400',
       category: 'Dama',
+      subCategory: 'Pijamas',
       size: 'S',
-      color: 'Morado',
-      createdAt: '2024-02-02T13:00:00Z'
+      color: 'Azul',
+      createdAt: '2024-03-28T16:20:00Z'
     },
     {
-      id: 'p-014',
-      name: 'Conjunto sport blanco',
-      price: 899,
-      image: 'https://picsum.photos/seed/camisasdama-014/300/400',
+      id: 'p-003',
+      name: 'Blusa bordada ivory',
+      price: 759,
+      image: 'https://picsum.photos/seed/dama-blusa-001/300/400',
       category: 'Dama',
-      size: 'L',
+      subCategory: 'Blusas',
+      size: 'M',
       color: 'Blanco',
-      createdAt: '2023-10-21T09:40:00Z'
+      createdAt: '2024-03-08T20:10:00Z'
     },
     {
-      id: 'p-015',
-      name: 'Abrigo negro elegante',
-      price: 1599,
-      image: 'https://picsum.photos/seed/camisasdama-015/300/400',
+      id: 'p-004',
+      name: 'Blusa plisada nocturna',
+      price: 829,
+      image: 'https://picsum.photos/seed/dama-blusa-002/300/400',
       category: 'Dama',
-      size: 'XL',
+      subCategory: 'Blusas',
+      size: 'L',
+      color: 'Negro',
+      createdAt: '2024-02-28T15:30:00Z'
+    },
+    {
+      id: 'p-005',
+      name: 'Camiseta básica índigo',
+      price: 449,
+      image: 'https://picsum.photos/seed/dama-camiseta-001/300/400',
+      category: 'Dama',
+      subCategory: 'Camisetas',
+      size: 'S',
+      color: 'Azul',
+      createdAt: '2024-02-12T08:10:00Z'
+    },
+    {
+      id: 'p-006',
+      name: 'Camiseta esencial carmín',
+      price: 479,
+      image: 'https://picsum.photos/seed/dama-camiseta-002/300/400',
+      category: 'Dama',
+      subCategory: 'Camisetas',
+      size: 'M',
+      color: 'Rojo',
+      createdAt: '2024-01-22T09:15:00Z'
+    },
+    {
+      id: 'p-007',
+      name: 'Leggins esculpidos grafito',
+      price: 699,
+      image: 'https://picsum.photos/seed/dama-leggins-001/300/400',
+      category: 'Dama',
+      subCategory: 'Leggins',
+      size: 'L',
       color: 'Negro',
       createdAt: '2024-01-12T17:25:00Z'
     },
     {
-      id: 'p-016',
-      name: 'Vestido azul marino',
-      price: 989,
-      image: 'https://picsum.photos/seed/camisasdama-016/300/400',
+      id: 'p-008',
+      name: 'Leggins compresión oliva',
+      price: 729,
+      image: 'https://picsum.photos/seed/dama-leggins-002/300/400',
       category: 'Dama',
-      size: 'M',
+      subCategory: 'Leggins',
+      size: 'XL',
+      color: 'Verde',
+      createdAt: '2023-12-27T19:00:00Z'
+    },
+    {
+      id: 'p-009',
+      name: 'Pijama algodón estelar niña',
+      price: 589,
+      image: 'https://picsum.photos/seed/nina-pijama-001/300/400',
+      category: 'Niña',
+      subCategory: 'Pijamas',
+      size: '6',
+      color: 'Rosa',
+      createdAt: '2024-04-04T18:45:00Z'
+    },
+    {
+      id: 'p-010',
+      name: 'Pijama polar constelación niña',
+      price: 619,
+      image: 'https://picsum.photos/seed/nina-pijama-002/300/400',
+      category: 'Niña',
+      subCategory: 'Pijamas',
+      size: '8',
       color: 'Azul',
-      createdAt: '2024-03-02T10:55:00Z'
+      createdAt: '2024-03-15T10:00:00Z'
+    },
+    {
+      id: 'p-011',
+      name: 'Blusa floral amanecer',
+      price: 389,
+      image: 'https://picsum.photos/seed/nina-blusa-001/300/400',
+      category: 'Niña',
+      subCategory: 'Blusas',
+      size: '10',
+      color: 'Amarillo',
+      createdAt: '2024-02-02T13:00:00Z'
+    },
+    {
+      id: 'p-012',
+      name: 'Blusa magia lavanda',
+      price: 409,
+      image: 'https://picsum.photos/seed/nina-blusa-002/300/400',
+      category: 'Niña',
+      subCategory: 'Blusas',
+      size: '12',
+      color: 'Morado',
+      createdAt: '2023-12-10T12:00:00Z'
+    },
+    {
+      id: 'p-013',
+      name: 'Camiseta algodón nube',
+      price: 329,
+      image: 'https://picsum.photos/seed/nina-camiseta-001/300/400',
+      category: 'Niña',
+      subCategory: 'Camisetas',
+      size: '4',
+      color: 'Blanco',
+      createdAt: '2023-11-18T14:05:00Z'
+    },
+    {
+      id: 'p-014',
+      name: 'Camiseta ola turquesa',
+      price: 339,
+      image: 'https://picsum.photos/seed/nina-camiseta-002/300/400',
+      category: 'Niña',
+      subCategory: 'Camisetas',
+      size: '6',
+      color: 'Azul',
+      createdAt: '2023-10-21T09:40:00Z'
+    },
+    {
+      id: 'p-015',
+      name: 'Leggins aventura grafito',
+      price: 369,
+      image: 'https://picsum.photos/seed/nina-leggins-001/300/400',
+      category: 'Niña',
+      subCategory: 'Leggins',
+      size: '8',
+      color: 'Negro',
+      createdAt: '2023-09-14T11:00:00Z'
+    },
+    {
+      id: 'p-016',
+      name: 'Leggins energía jade',
+      price: 379,
+      image: 'https://picsum.photos/seed/nina-leggins-002/300/400',
+      category: 'Niña',
+      subCategory: 'Leggins',
+      size: '10',
+      color: 'Verde',
+      createdAt: '2023-08-30T08:30:00Z'
     }
   ];
 
@@ -253,10 +274,12 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   pagedProducts: Product[] = this.filteredProducts.slice(0, this.itemsPerPage);
   appliedChips: FilterChip[] = [];
   isFiltersOpen = false;
+  emptyStateMessage = 'No se encontraron productos con los filtros seleccionados.';
 
   private initialQueryApplied = false;
   private resizeObserver?: ResizeObserver;
   private selectedCategories = new Set<Category>();
+  private selectedSubCategories = new Set<SubCategory>();
   private selectedSizes = new Set<Size>();
   private selectedColors = new Set<Color>();
   private readonly handleViewportResize = () => this.onViewportChange();
@@ -348,6 +371,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   clearFilters(): void {
     this.filtersForm.setValue({
       categories: [],
+      subCategories: [],
       sizes: [],
       colors: [],
       priceMin: null,
@@ -358,7 +382,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   }
 
   onCheckboxChange(
-  controlName: 'categories' | 'sizes' | 'colors',
+  controlName: 'categories' | 'subCategories' | 'sizes' | 'colors',
   value: string,
   checked: boolean
 ): void {
@@ -396,6 +420,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   removeFilterChip(chip: FilterChip): void {
     switch (chip.type) {
       case 'categories':
+        case 'subCategories':
       case 'sizes':
       case 'colors': {
         const control = this.filtersForm.get(chip.type) as FormControl<string[]>;
@@ -477,12 +502,25 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     return this.selectedColors.has(color);
   }
 
-  private filterProducts(): void {
-    const { categories, sizes, colors, priceMin, priceMax, sort } = this.filtersForm.getRawValue();
+  
+     private filterProducts(): void {
+    const {
+      categories,
+      subCategories,
+      sizes,
+      colors,
+      priceMin,
+      priceMax,
+      sort
+    } = this.filtersForm.getRawValue();
     let result = [...this.allProducts];
 
     if (categories.length) {
       result = result.filter(product => categories.includes(product.category));
+    }
+
+    if (subCategories.length) {
+      result = result.filter(product => subCategories.includes(product.subCategory));
     }
 
     if (sizes.length) {
@@ -504,11 +542,13 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     result = this.sortProducts(result, sort);
 
     this.filteredProducts = result;
-    this.updateSelectionSets(categories, sizes, colors);
+    this.updateSelectionSets(categories, subCategories, sizes, colors);
     this.updateAppliedChips();
     this.updatePagination();
+    this.updateEmptyStateMessage(result.length, categories, subCategories);
     this.saveStateToStorage({
       categories,
+      subCategories,
       sizes,
       colors,
       priceMin,
@@ -548,10 +588,15 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
 
   private updateAppliedChips(): void {
     const chips: FilterChip[] = [];
-    const { categories, sizes, colors, priceMin, priceMax } = this.filtersForm.getRawValue();
+    const { categories, subCategories, sizes, colors, priceMin, priceMax } =
+      this.filtersForm.getRawValue();
 
     categories.forEach(category => {
       chips.push({ type: 'categories', value: category, label: category });
+    });
+
+    subCategories.forEach(subCategory => {
+      chips.push({ type: 'subCategories', value: subCategory, label: `Tipo: ${subCategory}` });
     });
 
     sizes.forEach(size => {
@@ -575,8 +620,44 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     this.appliedChips = chips;
   }
 
-    private updateSelectionSets(categories: Category[], sizes: Size[], colors: Color[]): void {
+  private updateEmptyStateMessage(
+    resultLength: number,
+    categories: Category[],
+    subCategories: SubCategory[]
+  ): void {
+    if (resultLength > 0) {
+      this.emptyStateMessage = 'No se encontraron productos con los filtros seleccionados.';
+      return;
+    }
+
+    if (subCategories.length === 1) {
+      const subLabel = subCategories[0].toLocaleLowerCase();
+      if (categories.length === 1) {
+        const categoryLabel = categories[0].toLocaleLowerCase();
+        this.emptyStateMessage = `Por ahora no tenemos ${subLabel} para ${categoryLabel}.`;
+      } else {
+        this.emptyStateMessage = `Por ahora no tenemos ${subLabel} disponibles.`;
+      }
+      return;
+    }
+
+    if (categories.length === 1) {
+      const categoryLabel = categories[0].toLocaleLowerCase();
+      this.emptyStateMessage = `No encontramos productos para ${categoryLabel} con estos filtros.`;
+      return;
+    }
+
+    this.emptyStateMessage = 'No se encontraron productos con los filtros seleccionados.';
+  }
+
+    private updateSelectionSets(
+    categories: Category[],
+    subCategories: SubCategory[],
+    sizes: Size[],
+    colors: Color[]
+  ): void {
     this.selectedCategories = new Set(categories);
+    this.selectedSubCategories = new Set(subCategories);
     this.selectedSizes = new Set(sizes);
     this.selectedColors = new Set(colors);
   }
@@ -587,6 +668,11 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
 
   private syncFormFromQuery(paramMap: ParamMap): void {
     const categories = this.getQueryArray<Category>(paramMap, 'categories', this.categoryOptions);
+    const subCategories = this.getQueryArray<SubCategory>(
+      paramMap,
+      'subCategories',
+      this.subCategoryOptions
+    );
     const sizes = this.getQueryArray<Size>(paramMap, 'sizes', this.sizeOptions);
     const colors = this.getQueryArray<Color>(paramMap, 'colors', this.colorOptions);
 
@@ -602,6 +688,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     this.filtersForm.setValue(
       {
         categories,
+        subCategories,
         sizes,
         colors,
         priceMin: priceMinParam,
@@ -615,9 +702,11 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   private syncQueryFromForm(): void {
   if (this.isBootstrapping) return;  // 👈 evita navegar en el primer render
 
-  const { categories, sizes, colors, priceMin, priceMax, sort } = this.filtersForm.getRawValue();
+  const { categories, subCategories, sizes, colors, priceMin, priceMax, sort } =
+    this.filtersForm.getRawValue();
   const queryParams: Params = {
     categories: categories.length ? categories.join(',') : null,
+    subCategories: subCategories.length ? subCategories.join(',') : null,
     sizes: sizes.length ? sizes.join(',') : null,
     colors: colors.length ? colors.join(',') : null,
     priceMin: priceMin ?? null,
@@ -640,6 +729,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   private applyStoredState(state: StoredFiltersState): void {
     this.filtersForm.setValue({
       categories: this.filterAllowedValues(state.categories, this.categoryOptions),
+      subCategories: this.filterAllowedValues(state.subCategories, this.subCategoryOptions),
       sizes: this.filterAllowedValues(state.sizes, this.sizeOptions),
       colors: this.filterAllowedValues(state.colors, this.colorOptions),
       priceMin: state.priceMin,
@@ -648,6 +738,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     });
     this.page = state.page > 0 ? Math.floor(state.page) : 1;
   }
+
 
   private loadStateFromStorage(): StoredFiltersState | null {
     if (!this.isBrowser()) {
@@ -663,6 +754,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
       const parsed = JSON.parse(raw) as Partial<StoredFiltersState>;
       return {
         categories: this.filterAllowedValues(parsed.categories ?? [], this.categoryOptions),
+        subCategories: this.filterAllowedValues(parsed.subCategories ?? [], this.subCategoryOptions),
         sizes: this.filterAllowedValues(parsed.sizes ?? [], this.sizeOptions),
         colors: this.filterAllowedValues(parsed.colors ?? [], this.colorOptions),
         priceMin: this.parseNumber(parsed.priceMin),

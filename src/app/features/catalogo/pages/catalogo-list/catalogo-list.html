@@ -36,6 +36,20 @@
         </div>
       </div>
 
+       <!-- Tipo de prenda -->
+      <div class="filters-section">
+        <h3>Tipo de prenda</h3>
+        <div class="option" *ngFor="let subCategory of subCategoryOptions">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="filtersForm.controls.subCategories.value.includes(subCategory)"
+              (change)="onCheckboxChange('subCategories', subCategory, $event.target.checked)" />
+            <span>{{ subCategory }}</span>
+          </label>
+        </div>
+      </div>
+
       <!-- Talla -->
       <div class="filters-section">
         <h3>Talla</h3>
@@ -125,6 +139,7 @@
       <p class="price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</p>
       <p class="product-tags">
         <span class="tag">{{ product.category }}</span>
+        <span class="tag">{{ product.subCategory }}</span>
         <span class="tag">Talla: {{ product.size }}</span>
         <span class="tag tag-color">Color: {{ product.color }}</span>
       </p>
@@ -132,9 +147,9 @@
   </article>
 </section>
 
-    <ng-template #emptyState>
+     <ng-template #emptyState>
       <div class="empty-state">
-        <p>No se encontraron productos con los filtros seleccionados.</p>
+        <p>{{ emptyStateMessage }}</p>
       </div>
     </ng-template>
 

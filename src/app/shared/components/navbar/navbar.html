@@ -60,18 +60,16 @@
       >
         <a
           class="menu-link"
-          [routerLink]="['/catalogo']"
-          [queryParams]="resetParams(catalogFilters.newest)"
-          (click)="onNavClick()"
+          [attr.href]="buildCatalogHref(catalogFilters.newest)"
+          (click)="navigateToCatalog($event, catalogFilters.newest)"
         >
           <span class="menu-label">Nuevo</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.newest)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.newest)"
+              (click)="navigateToCatalog($event, catalogFilters.newest)"
             >
               Tendencias
             </a>
@@ -90,45 +88,40 @@
       >
         <a
           class="menu-link"
-          [routerLink]="['/catalogo']"
-          [queryParams]="resetParams(catalogFilters.dama)"
-          (click)="onNavClick()"
+          [attr.href]="buildCatalogHref(catalogFilters.promotions)"
+          (click)="navigateToCatalog($event, catalogFilters.promotions)"
         >
           <span class="menu-label">Dama</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.damaPijamas)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.damaPijamas)"
+              (click)="navigateToCatalog($event, catalogFilters.damaPijamas)"
             >
               Pijamas
             </a>
           </li>
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.damaBlusas)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.damaBlusas)"
+              (click)="navigateToCatalog($event, catalogFilters.damaBlusas)"
             >
               Blusas
             </a>
           </li>
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.damaCamisetas)"
-              (click)="onNavClick()"
+               [attr.href]="buildCatalogHref(catalogFilters.damaCamisetas)"
+              (click)="navigateToCatalog($event, catalogFilters.damaCamisetas)"
             >
               Camisetas
             </a>
           </li>
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.damaLeggins)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.damaLeggins)"
+              (click)="navigateToCatalog($event, catalogFilters.damaLeggins)"
             >
               Leggins
             </a>
@@ -147,45 +140,40 @@
       >
         <a
           class="menu-link"
-          [routerLink]="['/catalogo']"
-          [queryParams]="resetParams(catalogFilters.nina)"
-          (click)="onNavClick()"
+          [attr.href]="buildCatalogHref(catalogFilters.nina)"
+          (click)="navigateToCatalog($event, catalogFilters.nina)"
         >
           <span class="menu-label">Niña</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.ninaPijamas)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.ninaPijamas)"
+              (click)="navigateToCatalog($event, catalogFilters.ninaPijamas)"
             >
               Pijamas
             </a>
           </li>
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.ninaBlusas)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.ninaBlusas)"
+              (click)="navigateToCatalog($event, catalogFilters.ninaBlusas)"
             >
               Blusas
             </a>
           </li>
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.ninaCamisetas)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.ninaCamisetas)"
+              (click)="navigateToCatalog($event, catalogFilters.ninaCamisetas)"
             >
               Camisetas
             </a>
           </li>
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.ninaLeggins)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.ninaLeggins)"
+              (click)="navigateToCatalog($event, catalogFilters.ninaLeggins)"
             >
               Leggins
             </a>
@@ -202,23 +190,12 @@
         (focusin)="openMenu('acceso')"
         (focusout)="handleFocusOut($event, 'acceso')"
       >
-        <a
-          class="menu-link"
-          [routerLink]="['/catalogo']"
-          [queryParams]="resetParams(catalogFilters.acceso)"
-          (click)="onNavClick()"
-        >
+         <button class="menu-link" type="button" disabled aria-disabled="true"> 
           <span class="menu-label">Acceso</span>
-        </a>
+        </button>
         <ul class="dropdown">
           <li>
-            <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.acceso)"
-              (click)="onNavClick()"
-            >
-              Acceso empleados
-            </a>
+             <span class="menu-info">Acceso para empleados disponible próximamente.</span>
           </li>
         </ul>
       </li>

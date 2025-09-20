@@ -22,15 +22,14 @@ export class NavbarComponent {
     newest: { sort: 'newest' },
     dama: { categories: 'Dama' },
     nina: { categories: 'Niña' },
-    damaPijamas: { categories: 'Dama', colors: 'Rosa' },
-    damaBlusas: { categories: 'Dama', colors: 'Blanco' },
-    damaCamisetas: { categories: 'Dama', colors: 'Azul' },
-    damaLeggins: { categories: 'Dama', colors: 'Negro' },
-    ninaPijamas: { categories: 'Niña', colors: 'Rosa' },
-    ninaBlusas: { categories: 'Niña', colors: 'Morado' },
-    ninaCamisetas: { categories: 'Niña', colors: 'Azul' },
-    ninaLeggins: { categories: 'Niña', colors: 'Verde' },
-    acceso: { priceMin: 900, sort: 'priceDesc' }
+    damaPijamas: { categories: 'Dama', subCategories: 'Pijamas' },
+    damaBlusas: { categories: 'Dama', subCategories: 'Blusas' },
+    damaCamisetas: { categories: 'Dama', subCategories: 'Camisetas' },
+    damaLeggins: { categories: 'Dama', subCategories: 'Leggins' },
+    ninaPijamas: { categories: 'Niña', subCategories: 'Pijamas' },
+    ninaBlusas: { categories: 'Niña', subCategories: 'Blusas' },
+    ninaCamisetas: { categories: 'Niña', subCategories: 'Camisetas' },
+    ninaLeggins: { categories: 'Niña', subCategories: 'Leggins' }
   } as const;
 
   activeMenu: string | null = null;
@@ -58,6 +57,7 @@ export class NavbarComponent {
     return {
       // limpia todo lo que usa el catálogo
       categories: null,
+      subCategories: null,
       sizes: null,
       colors: null,
       priceMin: null,
@@ -67,6 +67,23 @@ export class NavbarComponent {
       // aplica solo el filtro elegido
       ...overrides
     };
+  }
+
+  navigateToCatalog(event: Event, overrides: Params): void {
+    event.preventDefault();
+    const queryParams = this.resetParams(overrides);
+    this.onNavClick();
+    void this.router.navigate(['/catalogo'], {
+      queryParams,
+      queryParamsHandling: ''
+    });
+  }
+
+  buildCatalogHref(overrides: Params): string {
+    const urlTree = this.router.createUrlTree(['/catalogo'], {
+      queryParams: this.resetParams(overrides)
+    });
+    return this.router.serializeUrl(urlTree);
   }
 
   /** Cierra el dropdown después del click en un item del menú */
@@ -93,7 +110,7 @@ export class NavbarComponent {
     }
     this.closeMenu(menuId);
   }
-
+  
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.activeMenu = null;
