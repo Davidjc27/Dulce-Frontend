@@ -10,9 +10,11 @@ import {
 } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 import { CatalogNavigationService } from './services/catalog-navigation.service';
+import { CartItem, CartService } from '../../../../shared/services/cart.service';
 
 type Category = 'Dama' | 'Niña';
 type SubCategory = 'Pijamas' | 'Blusas' | 'Camisetas' | 'Leggins';
@@ -52,7 +54,7 @@ interface StoredFiltersState {
 @Component({
   selector: 'app-catalogo-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgOptimizedImage],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgOptimizedImage, RouterLink],
   templateUrl: './catalogo-list.html',
   styleUrls: ['./catalogo-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -62,6 +64,9 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
 
   @ViewChild('filtersButtonRef')
   private filtersButton?: ElementRef<HTMLButtonElement>;
+
+  @ViewChild('cartToggleButton')
+  private cartToggleButton?: ElementRef<HTMLButtonElement>;
 
   @ViewChild('productsGrid')
   private productsGridRef?: ElementRef<HTMLElement>;
@@ -90,6 +95,10 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     priceMax: new FormControl<number | null>(null),
     sort: new FormControl<SortOptionValue>('relevance', { nonNullable: true })
   });
+
+  readonly cartItems$: Observable<CartItem[]>;
+  readonly cartCount$: Observable<number>;
+  readonly cartTotal$: Observable<number>;
 
   readonly allProducts: Product[] = [
     {
@@ -276,6 +285,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   pagedProducts: Product[] = this.filteredProducts.slice(0, this.itemsPerPage);
   appliedChips: FilterChip[] = [];
   isFiltersOpen = false;
+  isCartPanelOpen = false;
   emptyStateMessage = 'No se encontraron productos con los filtros seleccionados.';
 
   private resizeObserver?: ResizeObserver;
@@ -289,8 +299,13 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
-    private readonly catalogNavigation: CatalogNavigationService
-  ) {}
+    private readonly catalogNavigation: CatalogNavigationService,
+    private readonly cartService: CartService
+  ) {
+    this.cartItems$ = this.cartService.items$;
+    this.cartCount$ = this.cartService.totalQuantity$;
+    this.cartTotal$ = this.cartService.subtotal$;
+  }
   
   ngOnInit(): void {
   // 1) Inicial: URL o storage, sin navegar
@@ -484,8 +499,61 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     queueMicrotask(() => this.filtersButton?.nativeElement.focus());
   }
 
+  toggleCartPanel(): void {
+    this.isCartPanelOpen = !this.isCartPanelOpen;
+    if (!this.isCartPanelOpen) {
+      queueMicrotask(() => this.cartToggleButton?.nativeElement.focus());
+    }
+    this.cdr.markForCheck();
+  }
+
+  openCartPanel(): void {
+    if (!this.isCartPanelOpen) {
+      this.isCartPanelOpen = true;
+      this.cdr.markForCheck();
+    }
+  }
+
+  closeCartPanel(): void {
+    if (!this.isCartPanelOpen) {
+      return;
+    }
+    this.isCartPanelOpen = false;
+    queueMicrotask(() => this.cartToggleButton?.nativeElement.focus());
+    this.cdr.markForCheck();
+  }
+
+  addToCart(product: Product): void {
+    this.cartService.addItem(product);
+    this.openCartPanel();
+  }
+
+  incrementCartItem(productId: string): void {
+    this.cartService.increment(productId);
+  }
+
+  decrementCartItem(productId: string): void {
+    this.cartService.decrement(productId);
+  }
+
+  updateCartQuantity(productId: string, value: string | number): void {
+    const quantity = Number(value);
+    if (!Number.isFinite(quantity)) {
+      return;
+    }
+    this.cartService.updateQuantity(productId, quantity);
+  }
+
+  removeCartItem(productId: string): void {
+    this.cartService.removeItem(productId);
+  }
+
   trackById(_index: number, product: Product): string {
     return product.id;
+  }
+
+  trackByCartItem(_index: number, item: CartItem): string {
+    return item.product.id;
   }
 
   trackByChip(_index: number, chip: FilterChip): string {

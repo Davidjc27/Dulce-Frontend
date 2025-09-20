@@ -185,5 +185,12 @@
         </ul>
       </li>
     </ul>
+    <div class="navbar-actions">
+      <a class="cart-entry" routerLink="/carrito" aria-label="Abrir carrito">
+        <span class="cart-entry-icon" aria-hidden="true">🛒</span>
+        <span class="cart-entry-label">Carrito</span>
+        <span class="cart-entry-count">{{ (totalCartItems$ | async) || 0 }}</span>
+      </a>
+    </div>
   </div>
 </nav>

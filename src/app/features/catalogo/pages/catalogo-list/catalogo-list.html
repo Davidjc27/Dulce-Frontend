@@ -143,6 +143,11 @@
         <span class="tag">Talla: {{ product.size }}</span>
         <span class="tag tag-color">Color: {{ product.color }}</span>
       </p>
+      <div class="product-actions">
+        <button type="button" class="add-to-cart" (click)="addToCart(product)">
+          Agregar al carrito
+        </button>
+      </div>
     </div>
   </article>
 </section>
@@ -161,3 +166,94 @@
     </nav>
   </main>
 </div>
+
+<button
+  #cartToggleButton
+  type="button"
+  class="cart-toggle"
+  (click)="toggleCartPanel()"
+  [attr.aria-expanded]="isCartPanelOpen"
+  aria-controls="catalog-cart-panel">
+  <span class="cart-toggle-icon" aria-hidden="true">🛒</span>
+  <span class="cart-toggle-label">Carrito</span>
+  <span class="cart-toggle-count" *ngIf="(cartCount$ | async) as count">{{ count }}</span>
+</button>
+
+<div
+  id="catalog-cart-panel"
+  class="cart-panel"
+  [class.open]="isCartPanelOpen"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="catalog-cart-title"
+  [attr.aria-hidden]="!isCartPanelOpen">
+  <div class="cart-panel-header">
+    <h2 id="catalog-cart-title">Tu carrito</h2>
+    <button type="button" class="cart-panel-close" (click)="closeCartPanel()" aria-label="Cerrar carrito">
+      ×
+    </button>
+  </div>
+
+  <ng-container *ngIf="(cartItems$ | async) as cartItems">
+    <div class="cart-panel-body">
+      <ng-container *ngIf="cartItems.length; else emptyCartPanel">
+        <article class="cart-panel-item" *ngFor="let item of cartItems; trackBy: trackByCartItem">
+          <div class="item-thumb">
+            <img [src]="item.product.image" [alt]="item.product.name" loading="lazy" />
+          </div>
+          <div class="item-info">
+            <h3>{{ item.product.name }}</h3>
+            <p class="item-meta" *ngIf="item.product.size">Talla: {{ item.product.size }}</p>
+            <p class="item-meta" *ngIf="item.product.color">Color: {{ item.product.color }}</p>
+            <p class="item-price">{{ item.product.price | currency:'USD':'symbol':'1.0-0' }}</p>
+            <div class="item-quantity-control">
+              <button
+                type="button"
+                (click)="decrementCartItem(item.product.id)"
+                aria-label="Disminuir cantidad">
+                −
+              </button>
+              <input
+                type="number"
+                min="1"
+                [value]="item.quantity"
+                (change)="updateCartQuantity(item.product.id, $event.target.value)" />
+              <button
+                type="button"
+                (click)="incrementCartItem(item.product.id)"
+                aria-label="Aumentar cantidad">
+                +
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="remove-item"
+            (click)="removeCartItem(item.product.id)"
+            aria-label="Eliminar producto">
+            ×
+          </button>
+        </article>
+      </ng-container>
+    </div>
+
+    <div class="cart-panel-footer" *ngIf="cartItems.length">
+      <div class="cart-panel-subtotal">
+        <span>Subtotal</span>
+        <strong>{{ (cartTotal$ | async) | currency:'USD':'symbol':'1.0-0' }}</strong>
+      </div>
+      <p class="cart-panel-note">El envío y los impuestos se calculan al finalizar la compra.</p>
+      <a routerLink="/carrito" class="cart-panel-link" (click)="closeCartPanel()">Ver carrito completo</a>
+      <a routerLink="/checkout" class="cart-panel-checkout" (click)="closeCartPanel()">Finalizar compra</a>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #emptyCartPanel>
+  <div class="cart-panel-empty">
+    <p>Tu carrito está vacío. Agrega tus prendas favoritas para verlas aquí.</p>
+    <a routerLink="/catalogo" (click)="closeCartPanel()">Explorar catálogo</a>
+  </div>
+</ng-template>
+
+<div class="cart-panel-backdrop" *ngIf="isCartPanelOpen" (click)="closeCartPanel()" aria-hidden="true"></div>

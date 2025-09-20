@@ -1,14 +1,15 @@
-import { NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, HostListener, inject } from '@angular/core';
 import { Router, NavigationEnd, RouterLink, Params, UrlTree } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
 import { CatalogNavigationService } from '../../../features/catalogo/pages/catalogo-list/services/catalog-navigation.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
@@ -33,6 +34,9 @@ export class NavbarComponent {
 
   private readonly router = inject(Router);
   private readonly catalogNavigation = inject(CatalogNavigationService);
+  private readonly cartService = inject(CartService);
+
+  readonly totalCartItems$ = this.cartService.totalQuantity$;
 
   constructor() {
     // estado inicial

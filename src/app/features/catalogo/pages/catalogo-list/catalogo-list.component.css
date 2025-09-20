@@ -244,6 +244,32 @@
   color: #b91c1c;
 }
 
+.product-actions {
+  margin-top: 0.75rem;
+}
+
+.add-to-cart {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  border: none;
+  background: #111827;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.add-to-cart:hover,
+.add-to-cart:focus-visible {
+  background: #0f172a;
+}
+
+.add-to-cart:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 3px;
+}
 
 .empty-state {
   background: #ffffff;
