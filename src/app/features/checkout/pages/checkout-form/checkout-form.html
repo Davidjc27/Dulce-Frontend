@@ -1,1 +1,665 @@
-<p>checkout-form works!</p>
+<section class="checkout-page">
+  <header class="checkout-header">
+    <nav class="checkout-progress" aria-label="Progreso de compra">
+      <ol>
+        <li class="completed">
+          <span class="step-index" aria-hidden="true">1</span>
+          <span>Carrito</span>
+        </li>
+        <li class="current">
+          <span class="step-index" aria-hidden="true">2</span>
+          <span>Checkout</span>
+        </li>
+        <li>
+          <span class="step-index" aria-hidden="true">3</span>
+          <span>Confirmación</span>
+        </li>
+      </ol>
+    </nav>
+
+    <h1>Finaliza tu compra</h1>
+    <p>
+      Ingresa tus datos y selecciona tu medio de pago favorito. Protegemos cada transacción con
+      encriptación de grado bancario.
+    </p>
+  </header>
+
+  <form
+    class="checkout-layout"
+    [formGroup]="checkoutForm"
+    (ngSubmit)="submitCheckout()"
+    autocomplete="on"
+    novalidate>
+    <div class="form-column">
+      <section class="form-block" formGroupName="contact">
+        <div class="block-header">
+          <h2>Datos de contacto</h2>
+          <p>Te enviaremos la confirmación y novedades de tu pedido.</p>
+        </div>
+
+        <div class="field-grid">
+          <div
+            class="field"
+            [class.invalid]="
+              contact.controls.email.invalid &&
+              (contact.controls.email.dirty || contact.controls.email.touched)
+            ">
+            <label for="checkout-email">Correo electrónico</label>
+            <input
+              id="checkout-email"
+              type="email"
+              formControlName="email"
+              placeholder="tu@correo.com"
+              autocomplete="email" />
+            <p
+              class="field-error"
+              *ngIf="
+                contact.controls.email.hasError('required') &&
+                (contact.controls.email.dirty || contact.controls.email.touched)
+              ">
+              El correo es obligatorio.
+            </p>
+            <p
+              class="field-error"
+              *ngIf="
+                contact.controls.email.hasError('email') &&
+                (contact.controls.email.dirty || contact.controls.email.touched)
+              ">
+              Ingresa un correo válido.
+            </p>
+          </div>
+
+          <div
+            class="field"
+            [class.invalid]="
+              contact.controls.phone.invalid &&
+              (contact.controls.phone.dirty || contact.controls.phone.touched)
+            ">
+            <label for="checkout-phone">Celular</label>
+            <input
+              id="checkout-phone"
+              type="tel"
+              formControlName="phone"
+              placeholder="3001234567"
+              autocomplete="tel"
+              inputmode="numeric" />
+            <p
+              class="field-error"
+              *ngIf="
+                contact.controls.phone.hasError('required') &&
+                (contact.controls.phone.dirty || contact.controls.phone.touched)
+              ">
+              El celular es obligatorio.
+            </p>
+            <p
+              class="field-error"
+              *ngIf="
+                contact.controls.phone.hasError('pattern') &&
+                (contact.controls.phone.dirty || contact.controls.phone.touched)
+              ">
+              Usa solo números (7 a 10 dígitos).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-block" formGroupName="shipping">
+        <div class="block-header">
+          <h2>Dirección de envío</h2>
+          <p>Utiliza una dirección donde puedas recibir tu pedido sin contratiempos.</p>
+        </div>
+
+        <div class="field-grid">
+          <div
+            class="field"
+            [class.invalid]="
+              shipping.controls.fullName.invalid &&
+              (shipping.controls.fullName.dirty || shipping.controls.fullName.touched)
+            ">
+            <label for="shipping-name">Nombre y apellidos</label>
+            <input
+              id="shipping-name"
+              type="text"
+              formControlName="fullName"
+              placeholder="Nombre completo"
+              autocomplete="name" />
+            <p
+              class="field-error"
+              *ngIf="
+                shipping.controls.fullName.hasError('required') &&
+                (shipping.controls.fullName.dirty || shipping.controls.fullName.touched)
+              ">
+              Este campo es obligatorio.
+            </p>
+          </div>
+
+          <div class="field-row">
+            <div class="field select">
+              <label for="shipping-document-type">Tipo de documento</label>
+              <select id="shipping-document-type" formControlName="documentType">
+                <option *ngFor="let type of documentTypes" [value]="type.value">{{ type.label }}</option>
+              </select>
+            </div>
+
+            <div
+              class="field"
+              [class.invalid]="
+                shipping.controls.documentNumber.invalid &&
+                (shipping.controls.documentNumber.dirty || shipping.controls.documentNumber.touched)
+              ">
+              <label for="shipping-document-number">Número de documento</label>
+              <input
+                id="shipping-document-number"
+                type="text"
+                formControlName="documentNumber"
+                placeholder="1234567890"
+                autocomplete="off" />
+              <p
+                class="field-error"
+                *ngIf="
+                  shipping.controls.documentNumber.hasError('required') &&
+                  (shipping.controls.documentNumber.dirty || shipping.controls.documentNumber.touched)
+                ">
+                Ingresa tu documento.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="field"
+            [class.invalid]="
+              shipping.controls.address.invalid &&
+              (shipping.controls.address.dirty || shipping.controls.address.touched)
+            ">
+            <label for="shipping-address">Dirección</label>
+            <input
+              id="shipping-address"
+              type="text"
+              formControlName="address"
+              placeholder="Calle 123 #45-67"
+              autocomplete="street-address" />
+            <p
+              class="field-error"
+              *ngIf="
+                shipping.controls.address.hasError('required') &&
+                (shipping.controls.address.dirty || shipping.controls.address.touched)
+              ">
+              La dirección es obligatoria.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="shipping-apartment">Complemento</label>
+            <input
+              id="shipping-apartment"
+              type="text"
+              formControlName="apartment"
+              placeholder="Apartamento, torre, interior (opcional)" />
+          </div>
+
+          <div class="field-row">
+            <div
+              class="field select"
+              [class.invalid]="
+                shipping.controls.city.invalid &&
+                (shipping.controls.city.dirty || shipping.controls.city.touched)
+              ">
+              <label for="shipping-city">Ciudad</label>
+              <select id="shipping-city" formControlName="city">
+                <option value="" disabled>Selecciona una ciudad</option>
+                <option *ngFor="let city of cityOptions" [value]="city">{{ city }}</option>
+              </select>
+              <p
+                class="field-error"
+                *ngIf="
+                  shipping.controls.city.hasError('required') &&
+                  (shipping.controls.city.dirty || shipping.controls.city.touched)
+                ">
+                Selecciona una ciudad.
+              </p>
+            </div>
+
+            <div
+              class="field select"
+              [class.invalid]="
+                shipping.controls.department.invalid &&
+                (shipping.controls.department.dirty || shipping.controls.department.touched)
+              ">
+              <label for="shipping-department">Departamento</label>
+              <select id="shipping-department" formControlName="department">
+                <option value="" disabled>Selecciona un departamento</option>
+                <option *ngFor="let department of departmentOptions" [value]="department">
+                  {{ department }}
+                </option>
+              </select>
+              <p
+                class="field-error"
+                *ngIf="
+                  shipping.controls.department.hasError('required') &&
+                  (shipping.controls.department.dirty || shipping.controls.department.touched)
+                ">
+                Selecciona un departamento.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="field"
+            [class.invalid]="
+              shipping.controls.postalCode.invalid &&
+              (shipping.controls.postalCode.dirty || shipping.controls.postalCode.touched)
+            ">
+            <label for="shipping-postal-code">Código postal</label>
+            <input
+              id="shipping-postal-code"
+              type="text"
+              formControlName="postalCode"
+              placeholder="110111"
+              autocomplete="postal-code" />
+            <p
+              class="field-error"
+              *ngIf="
+                shipping.controls.postalCode.hasError('required') &&
+                (shipping.controls.postalCode.dirty || shipping.controls.postalCode.touched)
+              ">
+              Ingresa el código postal.
+            </p>
+          </div>
+
+          <div class="field textarea">
+            <label for="shipping-notes">Notas para el envío</label>
+            <textarea
+              id="shipping-notes"
+              rows="3"
+              formControlName="notes"
+              placeholder="Indica si el ingreso al conjunto requiere autorización previa"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-block">
+        <div class="block-header">
+          <h2>Método de envío</h2>
+          <p>Escoge la alternativa que mejor se ajuste a tu ritmo.</p>
+        </div>
+
+        <div class="shipping-options" role="radiogroup" aria-label="Selecciona un método de envío">
+          <label
+            class="shipping-option"
+            *ngFor="let method of shippingMethods"
+            [class.active]="checkoutForm.controls.shippingMethod.value === method.id">
+            <input type="radio" formControlName="shippingMethod" [value]="method.id" />
+            <div class="shipping-option-card">
+              <div class="option-header">
+                <span class="option-title">{{ method.label }}</span>
+                <span class="option-badge" *ngIf="method.badge">{{ method.badge }}</span>
+              </div>
+              <p class="option-eta">{{ method.eta }}</p>
+              <p class="option-description">{{ method.description }}</p>
+              <span class="option-price">
+                {{ method.cost ? (method.cost | currency:'USD':'symbol':'1.0-0') : 'Gratis' }}
+              </span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <section class="form-block payment">
+        <div class="block-header">
+          <h2>Método de pago</h2>
+          <p>Selecciona cómo prefieres completar tu compra.</p>
+        </div>
+
+        <div class="payment-options" role="radiogroup" aria-label="Método de pago">
+          <label
+            class="payment-option"
+            *ngFor="let method of paymentMethods"
+            [class.active]="checkoutForm.controls.paymentMethod.value === method.id">
+            <input type="radio" formControlName="paymentMethod" [value]="method.id" />
+            <div class="payment-option-card">
+              <div class="payment-title">
+                <span>{{ method.label }}</span>
+                <span class="payment-badge" *ngIf="method.badge">{{ method.badge }}</span>
+              </div>
+              <p class="payment-description">{{ method.description }}</p>
+              <p class="payment-helper">{{ method.helper }}</p>
+            </div>
+          </label>
+        </div>
+
+        <div class="card-form" formGroupName="payment" *ngIf="isCardSelected">
+          <div class="field-grid">
+            <div
+              class="field"
+              [class.invalid]="
+                payment.controls.cardHolder.invalid &&
+                (payment.controls.cardHolder.dirty || payment.controls.cardHolder.touched)
+              ">
+              <label for="payment-card-holder">Titular de la tarjeta</label>
+              <input
+                id="payment-card-holder"
+                type="text"
+                formControlName="cardHolder"
+                placeholder="Como aparece en la tarjeta"
+                autocomplete="cc-name" />
+              <p
+                class="field-error"
+                *ngIf="
+                  payment.controls.cardHolder.hasError('required') &&
+                  (payment.controls.cardHolder.dirty || payment.controls.cardHolder.touched)
+                ">
+                Ingresa el nombre del titular.
+              </p>
+            </div>
+
+            <div
+              class="field"
+              [class.invalid]="
+                payment.controls.cardNumber.invalid &&
+                (payment.controls.cardNumber.dirty || payment.controls.cardNumber.touched)
+              ">
+              <label for="payment-card-number">Número de tarjeta</label>
+              <input
+                id="payment-card-number"
+                type="text"
+                formControlName="cardNumber"
+                placeholder="0000 0000 0000 0000"
+                autocomplete="cc-number"
+                inputmode="numeric" />
+              <p
+                class="field-error"
+                *ngIf="
+                  payment.controls.cardNumber.hasError('required') &&
+                  (payment.controls.cardNumber.dirty || payment.controls.cardNumber.touched)
+                ">
+                El número de tarjeta es obligatorio.
+              </p>
+              <p
+                class="field-error"
+                *ngIf="
+                  payment.controls.cardNumber.hasError('pattern') &&
+                  (payment.controls.cardNumber.dirty || payment.controls.cardNumber.touched)
+                ">
+                Revisa el número ingresado.
+              </p>
+            </div>
+
+            <div class="field-row">
+              <div
+                class="field"
+                [class.invalid]="
+                  payment.controls.expiry.invalid &&
+                  (payment.controls.expiry.dirty || payment.controls.expiry.touched)
+                ">
+                <label for="payment-expiry">Vencimiento</label>
+                <input
+                  id="payment-expiry"
+                  type="text"
+                  formControlName="expiry"
+                  placeholder="MM/AA"
+                  autocomplete="cc-exp"
+                  inputmode="numeric" />
+                <p
+                  class="field-error"
+                  *ngIf="
+                    payment.controls.expiry.hasError('required') &&
+                    (payment.controls.expiry.dirty || payment.controls.expiry.touched)
+                  ">
+                  Indica la fecha de vencimiento.
+                </p>
+                <p
+                  class="field-error"
+                  *ngIf="
+                    payment.controls.expiry.hasError('pattern') &&
+                    (payment.controls.expiry.dirty || payment.controls.expiry.touched)
+                  ">
+                  Usa el formato MM/AA.
+                </p>
+              </div>
+
+              <div
+                class="field"
+                [class.invalid]="
+                  payment.controls.cvv.invalid &&
+                  (payment.controls.cvv.dirty || payment.controls.cvv.touched)
+                ">
+                <label for="payment-cvv">CVV</label>
+                <input
+                  id="payment-cvv"
+                  type="password"
+                  formControlName="cvv"
+                  placeholder="123"
+                  autocomplete="cc-csc"
+                  inputmode="numeric"
+                  maxlength="4" />
+                <p
+                  class="field-error"
+                  *ngIf="
+                    payment.controls.cvv.hasError('required') &&
+                    (payment.controls.cvv.dirty || payment.controls.cvv.touched)
+                  ">
+                  Ingresa el código de seguridad.
+                </p>
+                <p
+                  class="field-error"
+                  *ngIf="
+                    payment.controls.cvv.hasError('pattern') &&
+                    (payment.controls.cvv.dirty || payment.controls.cvv.touched)
+                  ">
+                  Debe tener 3 o 4 dígitos.
+                </p>
+              </div>
+            </div>
+
+            <label class="checkbox-field">
+              <input type="checkbox" formControlName="saveCard" />
+              <span>Guardar mi tarjeta para futuras compras seguras</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="payment-hint" *ngIf="!isCardSelected && selectedPaymentMethod as method">
+          <p>
+            Finalizaremos la compra y te llevaremos a {{ method.label.toLowerCase() }} para completar la
+            transacción.
+          </p>
+          <p class="hint-subtitle">No cierres esta ventana para que podamos confirmar tu pago.</p>
+        </div>
+      </section>
+
+      <section class="form-block" formGroupName="invoice">
+        <div class="block-header">
+          <h2>Factura electrónica</h2>
+          <p>Si la necesitas a nombre de una empresa, activa la opción a continuación.</p>
+        </div>
+
+        <label class="checkbox-field">
+          <input type="checkbox" formControlName="needInvoice" />
+          <span>Requiero factura a nombre de una empresa</span>
+        </label>
+
+        <div class="field-grid" *ngIf="invoice.controls.needInvoice.value">
+          <div
+            class="field"
+            [class.invalid]="
+              invoice.controls.businessName.invalid &&
+              (invoice.controls.businessName.dirty || invoice.controls.businessName.touched)
+            ">
+            <label for="invoice-business">Razón social</label>
+            <input
+              id="invoice-business"
+              type="text"
+              formControlName="businessName"
+              placeholder="Nombre de la empresa" />
+            <p
+              class="field-error"
+              *ngIf="
+                invoice.controls.businessName.hasError('required') &&
+                (invoice.controls.businessName.dirty || invoice.controls.businessName.touched)
+              ">
+              Ingresa la razón social.
+            </p>
+          </div>
+
+          <div
+            class="field"
+            [class.invalid]="
+              invoice.controls.taxId.invalid &&
+              (invoice.controls.taxId.dirty || invoice.controls.taxId.touched)
+            ">
+            <label for="invoice-tax-id">NIT o identificación</label>
+            <input id="invoice-tax-id" type="text" formControlName="taxId" placeholder="900000000" />
+            <p
+              class="field-error"
+              *ngIf="
+                invoice.controls.taxId.hasError('required') &&
+                (invoice.controls.taxId.dirty || invoice.controls.taxId.touched)
+              ">
+              Ingresa el NIT.
+            </p>
+          </div>
+
+          <div
+            class="field"
+            [class.invalid]="
+              invoice.controls.email.invalid &&
+              (invoice.controls.email.dirty || invoice.controls.email.touched)
+            ">
+            <label for="invoice-email">Correo de facturación</label>
+            <input id="invoice-email" type="email" formControlName="email" placeholder="facturacion@empresa.com" />
+            <p
+              class="field-error"
+              *ngIf="
+                invoice.controls.email.hasError('required') &&
+                (invoice.controls.email.dirty || invoice.controls.email.touched)
+              ">
+              El correo es obligatorio.
+            </p>
+            <p
+              class="field-error"
+              *ngIf="
+                invoice.controls.email.hasError('email') &&
+                (invoice.controls.email.dirty || invoice.controls.email.touched)
+              ">
+              Ingresa un correo válido.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <label class="checkbox-field terms">
+          <input type="checkbox" formControlName="acceptTerms" />
+          <span>
+            Acepto la
+            <a routerLink="/terminos-y-condiciones">política de términos y condiciones</a>
+            y el
+            <a routerLink="/privacidad">tratamiento de datos personales</a>.
+          </span>
+        </label>
+
+        <button type="submit" class="submit" [disabled]="checkoutForm.invalid || isSubmitting">
+          {{ isSubmitting ? 'Procesando pago…' : ('Pagar ' + (total | currency:'USD':'symbol':'1.0-0')) }}
+        </button>
+
+        <p class="secure-note">
+          <span aria-hidden="true">🔒</span>
+          Pago seguro con estándares PCI DSS y cifrado TLS 1.2.
+        </p>
+
+        <p class="submission-message success" *ngIf="submissionState === 'success'">
+          ¡Gracias! Tu pago fue recibido. Te enviaremos un correo con la confirmación en los próximos
+          minutos.
+        </p>
+        <p class="submission-message error" *ngIf="submissionState === 'error'">
+          Revisa los campos resaltados para continuar con la compra.
+        </p>
+      </div>
+    </div>
+
+    <aside class="summary-card" aria-label="Resumen del pedido">
+      <h2>Resumen</h2>
+
+      <ul class="summary-items">
+        <li class="summary-item" *ngFor="let item of orderItems">
+          <div class="item-info">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-meta" *ngIf="item.color || item.size">
+              <ng-container *ngIf="item.color">{{ item.color }}</ng-container>
+              <ng-container *ngIf="item.color && item.size"> • </ng-container>
+              <ng-container *ngIf="item.size">Talla {{ item.size }}</ng-container>
+            </span>
+            <span class="item-meta">{{ item.quantity }} unidad{{ item.quantity > 1 ? 'es' : '' }}</span>
+          </div>
+          <span class="item-price">
+            {{ (item.price * item.quantity) | currency:'USD':'symbol':'1.0-0' }}
+          </span>
+        </li>
+      </ul>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>{{ subtotal | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+
+      <div class="summary-row discount" *ngIf="discountAmount">
+        <span>Descuento {{ discountLabel }}</span>
+        <span>-{{ discountAmount | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Envío</span>
+        <span>{{ shippingCost ? (shippingCost | currency:'USD':'symbol':'1.0-0') : 'Gratis' }}</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Impuestos estimados</span>
+        <span>{{ taxes | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+
+      <div class="summary-row total">
+        <span>Total a pagar</span>
+        <span>{{ total | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+
+      <div class="delivery-estimate" *ngIf="selectedShippingMethod as selectedShipping">
+        <h3>Entrega estimada</h3>
+        <p>{{ selectedShipping.eta }}</p>
+        <p class="delivery-note">{{ selectedShipping.description }}</p>
+      </div>
+
+      <div class="discount-form">
+        <label for="checkout-discount">¿Tienes un código de descuento?</label>
+        <div class="discount-input">
+          <input
+            id="checkout-discount"
+            type="text"
+            formControlName="discountCode"
+            placeholder="DULCE10"
+            autocomplete="off" />
+          <button type="button" (click)="applyDiscount()">Aplicar</button>
+        </div>
+        <p class="discount-feedback" *ngIf="discountFeedback" [class.error]="discountFeedback.type === 'error'">
+          {{ discountFeedback.message }}
+        </p>
+        <button type="button" class="discount-clear" *ngIf="appliedDiscount" (click)="clearDiscount()">
+          Quitar descuento
+        </button>
+      </div>
+
+      <div class="summary-extra">
+        <p *ngIf="subtotal < 120; else freeShippingMessage">
+          Envío gratis a partir de 120 USD. Te faltan
+          {{ (120 - subtotal) | currency:'USD':'symbol':'1.0-0' }}.
+        </p>
+        <ng-template #freeShippingMessage>
+          <p>¡Felicidades! Tu pedido aplica para envío gratuito.</p>
+        </ng-template>
+        <p>
+          ¿Necesitas ayuda? Visita nuestras
+          <a routerLink="/preguntas-frecuentes">preguntas frecuentes</a> o contáctanos.
+        </p>
+      </div>
+    </aside>
+  </form>
+</section>
