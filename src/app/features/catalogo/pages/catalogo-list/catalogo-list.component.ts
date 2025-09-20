@@ -10,10 +10,9 @@ import {
 } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Params, Router,NavigationEnd } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs';
-import { filter, map, distinctUntilChanged } from 'rxjs/operators';
+import { CatalogNavigationService } from './services/catalog-navigation.service';
 
 type Category = 'Dama' | 'Niña';
 type SubCategory = 'Pijamas' | 'Blusas' | 'Camisetas' | 'Leggins';
@@ -69,6 +68,7 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
 
   private isBootstrapping = true;
   private readonly itemsPerPage = 12; 
+  private lastQuerySignature: string | null = null;
 
   readonly categoryOptions: Category[] = ['Dama', 'Niña'];
   readonly subCategoryOptions: SubCategory[] = ['Pijamas', 'Blusas', 'Camisetas', 'Leggins'];
@@ -288,27 +288,27 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly catalogNavigation: CatalogNavigationService
   ) {}
   
   ngOnInit(): void {
   // 1) Inicial: URL o storage, sin navegar
   const initialPm: ParamMap = this.route.snapshot.queryParamMap;
   if (this.hasQueryParams(initialPm)) {
-    this.syncFormFromQuery(initialPm);
+    this.handleQueryParamsChange(initialPm, { force: true });
   } else {
     const stored = this.loadStateFromStorage();
     if (stored) this.applyStoredState(stored);
+    this.filterProducts();
+    this.lastQuerySignature = this.paramsSignature(initialPm);
   }
 
-  // 2) Pintar inmediatamente
-  this.filterProducts();
-
-  // 3) Fin de bootstrap
+  // 2) Fin de bootstrap
   this.isBootstrapping = false;
   this.cdr.detectChanges();
 
-  // 4) Cambios del form -> escribir URL y aplicar filtros
+  // 3) Cambios del form -> escribir URL y aplicar filtros
   this.filtersForm.valueChanges
     .pipe(takeUntilDestroyed())
     .subscribe(() => {
@@ -318,20 +318,12 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
       this.filterProducts();
     });
 
-  // 5) SIEMPRE reaccionar a cambios de query params (navbar, back/forward, etc.)
-  this.route.queryParamMap
-    .pipe(takeUntilDestroyed())
-    .subscribe((pm: ParamMap) => {
-      // Sincroniza el form desde la URL sin disparar valueChanges
-      this.isBootstrapping = true;
-      this.syncFormFromQuery(pm);
-      this.isBootstrapping = false;
+  // 4) SIEMPRE reaccionar a cambios de query params (navbar, back/forward, etc.)
+  this.observeCatalogNavigation();
 
-      // Aplica filtros y repinta
-      this.page = 1;
-      this.filterProducts();
-      this.cdr.detectChanges(); // OnPush
-    });
+  this.catalogNavigation.navigation$
+    .pipe(takeUntilDestroyed())
+    .subscribe(params => this.applyNavbarOverrides(params));
 }
 
   ngAfterViewInit(): void {
@@ -359,6 +351,29 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     }
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
+  }
+
+   private observeCatalogNavigation(): void {
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(paramMap => {
+      this.handleQueryParamsChange(paramMap);
+    });
+  }
+
+  private handleQueryParamsChange(paramMap: ParamMap, options: { force?: boolean } = {}): void {
+    const nextSignature = this.paramsSignature(paramMap);
+    if (!options.force && this.lastQuerySignature === nextSignature) {
+      return;
+    }
+
+    this.lastQuerySignature = nextSignature;
+
+    this.isBootstrapping = true;
+    this.syncFormFromQuery(paramMap);
+    this.isBootstrapping = false;
+
+    this.page = Math.max(1, this.page);
+    this.filterProducts();
+    this.cdr.detectChanges();
   }
 
   applyFilters(): void {
@@ -665,6 +680,41 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   this.updatePagination();
 }
 
+private applyNavbarOverrides(params: Params): void {
+    this.isBootstrapping = true;
+
+    const categories = this.normalizeOverrides<Category>(params['categories'], this.categoryOptions);
+    const subCategories = this.normalizeOverrides<SubCategory>(
+      params['subCategories'],
+      this.subCategoryOptions
+    );
+    const sizes = this.normalizeOverrides<Size>(params['sizes'], this.sizeOptions);
+    const colors = this.normalizeOverrides<Color>(params['colors'], this.colorOptions);
+    const priceMin = this.parseNumber(params['priceMin']);
+    const priceMax = this.parseNumber(params['priceMax']);
+
+    const sortParam = typeof params['sort'] === 'string' ? (params['sort'] as SortOptionValue) : null;
+    const sort = this.sortOptions.some(option => option.value === sortParam) ? sortParam! : 'relevance';
+
+    this.filtersForm.setValue(
+      {
+        categories,
+        subCategories,
+        sizes,
+        colors,
+        priceMin,
+        priceMax,
+        sort
+      },
+      { emitEvent: false }
+    );
+
+    this.page = 1;
+    this.isBootstrapping = false;
+    this.filterProducts();
+  }
+
+
   private syncFormFromQuery(paramMap: ParamMap): void {
     const categories = this.getQueryArray<Category>(paramMap, 'categories', this.categoryOptions);
     const subCategories = this.getQueryArray<SubCategory>(
@@ -855,5 +905,25 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
       return `${k}=${list.map(v => v.trim()).filter(Boolean).sort().join(',')}`;
     }).join('&');
   }
+
+  private normalizeOverrides<T extends string>(value: unknown, allowed: readonly T[]): T[] {
+    if (value == null) {
+      return [];
+    }
+
+    if (Array.isArray(value)) {
+      return value
+        .map(item => `${item}`.trim())
+        .filter((item): item is T => (allowed as readonly string[]).includes(item));
+    }
+
+    const list = `${value}`
+      .split(',')
+      .map(item => item.trim())
+      .filter((item): item is T => (allowed as readonly string[]).includes(item));
+
+    return list;
+  }
+
 
 }

@@ -3,6 +3,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { Router, NavigationEnd, RouterLink, Params, UrlTree } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
+import { CatalogNavigationService } from '../../../features/catalogo/pages/catalogo-list/services/catalog-navigation.service';
 
 @Component({
   selector: 'app-navbar',
@@ -31,6 +32,7 @@ export class NavbarComponent {
   isHome = false;
 
   private readonly router = inject(Router);
+  private readonly catalogNavigation = inject(CatalogNavigationService);
 
   constructor() {
     // estado inicial
@@ -81,6 +83,7 @@ export class NavbarComponent {
   this.onNavClick();
 
   const queryParams = this.resetParams(overrides);
+  this.catalogNavigation.trigger(queryParams);
   void this.router.navigate(['/catalogo'], {
     queryParams,
     queryParamsHandling: ''  // no merges
