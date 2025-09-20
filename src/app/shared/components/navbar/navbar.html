@@ -30,18 +30,16 @@
       >
         <a
           class="menu-link"
-          [routerLink]="['/catalogo']"
-          [queryParams]="resetParams(catalogFilters.promotions)"
-          (click)="onNavClick()"
+          [attr.href]="buildCatalogHref(catalogFilters.promotions)"
+          (click)="navigateToCatalog($event, catalogFilters.promotions)"
         >
           <span class="menu-label">Promociones</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [routerLink]="['/catalogo']"
-              [queryParams]="resetParams(catalogFilters.promotions)"
-              (click)="onNavClick()"
+              [attr.href]="buildCatalogHref(catalogFilters.promotions)"
+              (click)="navigateToCatalog($event, catalogFilters.promotions)"
             >
               Llévame a las promociones
             </a>
@@ -88,8 +86,8 @@
       >
         <a
           class="menu-link"
-          [attr.href]="buildCatalogHref(catalogFilters.promotions)"
-          (click)="navigateToCatalog($event, catalogFilters.promotions)"
+          [attr.href]="buildCatalogHref(catalogFilters.dama)"
+          (click)="navigateToCatalog($event, catalogFilters.dama)"
         >
           <span class="menu-label">Dama</span>
         </a>
@@ -112,7 +110,7 @@
           </li>
           <li>
             <a
-               [attr.href]="buildCatalogHref(catalogFilters.damaCamisetas)"
+              [attr.href]="buildCatalogHref(catalogFilters.damaCamisetas)"
               (click)="navigateToCatalog($event, catalogFilters.damaCamisetas)"
             >
               Camisetas

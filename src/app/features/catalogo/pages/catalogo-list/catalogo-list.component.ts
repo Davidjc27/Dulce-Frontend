@@ -10,8 +10,10 @@ import {
 } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params, Router,NavigationEnd } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { merge } from 'rxjs';
+import { filter, map, distinctUntilChanged } from 'rxjs/operators';
 
 type Category = 'Dama' | 'Niña';
 type SubCategory = 'Pijamas' | 'Blusas' | 'Camisetas' | 'Leggins';
@@ -276,7 +278,6 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   isFiltersOpen = false;
   emptyStateMessage = 'No se encontraron productos con los filtros seleccionados.';
 
-  private initialQueryApplied = false;
   private resizeObserver?: ResizeObserver;
   private selectedCategories = new Set<Category>();
   private selectedSubCategories = new Set<SubCategory>();
@@ -291,47 +292,45 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   ) {}
   
   ngOnInit(): void {
-  // 1) Inicializa desde URL o storage, pero SIN navegar
-  const snapshotPm: ParamMap = this.route.snapshot.queryParamMap;
-  if (this.hasQueryParams(snapshotPm)) {
-    this.syncFormFromQuery(snapshotPm);
+  // 1) Inicial: URL o storage, sin navegar
+  const initialPm: ParamMap = this.route.snapshot.queryParamMap;
+  if (this.hasQueryParams(initialPm)) {
+    this.syncFormFromQuery(initialPm);
   } else {
     const stored = this.loadStateFromStorage();
     if (stored) this.applyStoredState(stored);
   }
 
-  // 2) Pinta inmediatamente productos + chips
-  this.filterProducts(); // ya rellena filtered/paged y hace markForCheck
+  // 2) Pintar inmediatamente
+  this.filterProducts();
 
   // 3) Fin de bootstrap
   this.isBootstrapping = false;
-  queueMicrotask(() => this.cdr.detectChanges());
-
-  // ✅ 3.1) Fuerza el primer render con OnPush
   this.cdr.detectChanges();
 
-  // 4) Cambios del form → aplicar filtros + escribir URL
+  // 4) Cambios del form -> escribir URL y aplicar filtros
   this.filtersForm.valueChanges
     .pipe(takeUntilDestroyed())
     .subscribe(() => {
       if (this.isBootstrapping) return;
       this.page = 1;
-      this.syncQueryFromForm();
+      this.syncQueryFromForm(); // ahora solo navega si hay diferencia real
       this.filterProducts();
     });
 
-  // 5) Cambios futuros de la URL (back/forward/enlaces)
+  // 5) SIEMPRE reaccionar a cambios de query params (navbar, back/forward, etc.)
   this.route.queryParamMap
     .pipe(takeUntilDestroyed())
     .subscribe((pm: ParamMap) => {
-      if (!this.initialQueryApplied) {
-        this.initialQueryApplied = true;
-        return;
-      }
+      // Sincroniza el form desde la URL sin disparar valueChanges
       this.isBootstrapping = true;
       this.syncFormFromQuery(pm);
       this.isBootstrapping = false;
+
+      // Aplica filtros y repinta
+      this.page = 1;
       this.filterProducts();
+      this.cdr.detectChanges(); // OnPush
     });
 }
 
@@ -700,11 +699,13 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   }
 
   private syncQueryFromForm(): void {
-  if (this.isBootstrapping) return;  // 👈 evita navegar en el primer render
+  if (this.isBootstrapping) return; // evita navegar en el primer render
 
+  // 1) Construye los query params exactamente como los escribiríamos en la URL
   const { categories, subCategories, sizes, colors, priceMin, priceMax, sort } =
     this.filtersForm.getRawValue();
-  const queryParams: Params = {
+
+  const nextParams: Params = {
     categories: categories.length ? categories.join(',') : null,
     subCategories: subCategories.length ? subCategories.join(',') : null,
     sizes: sizes.length ? sizes.join(',') : null,
@@ -715,9 +716,17 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
     page: this.page > 1 ? this.page : null
   };
 
+  // 2) Compara firma de URL actual vs firma de lo que saldría del form.
+  const currentSig = this.paramsSignature(this.route.snapshot.queryParamMap);
+  const nextSig = this.paramsObjectSignature(nextParams);
+  if (currentSig === nextSig) {
+    return; // nada que escribir; evita re-navegaciones inútiles / loops
+  }
+
+  // 3) Navega (reemplazando URL para no apilar historial al tipear en filtros)
   this.router.navigate([], {
     relativeTo: this.route,
-    queryParams,
+    queryParams: nextParams,
     replaceUrl: true
   });
 }
@@ -826,4 +835,25 @@ export default class CatalogoListComponent implements OnInit, OnDestroy, AfterVi
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof window.document !== 'undefined';
   }
+
+  private paramsObjectSignature(obj: Params): string {
+    const keys = Object.keys(obj || {}).filter(k => obj[k] != null && obj[k] !== '').sort();
+    const parts = keys.map(k => {
+      const v = obj[k];
+      const arr = Array.isArray(v) ? v : `${v}`.split(',');
+      return `${k}=${arr.map(x => `${x}`.trim()).filter(Boolean).sort().join(',')}`;
+    });
+    return parts.join('&');
+  }
+
+  /** Firma estable para el ParamMap actual (URL real) */
+  private paramsSignature(pm: ParamMap): string {
+    const keys = [...pm.keys].sort();
+    return keys.map(k => {
+      const all = pm.getAll(k);
+      const list = all.length ? all : (pm.get(k)?.split(',') ?? []);
+      return `${k}=${list.map(v => v.trim()).filter(Boolean).sort().join(',')}`;
+    }).join('&');
+  }
+
 }

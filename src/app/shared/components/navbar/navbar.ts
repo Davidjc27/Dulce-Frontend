@@ -1,11 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, HostListener, inject } from '@angular/core';
-import {
-  Router,
-  NavigationEnd,
-  RouterLink,
-  Params,
-} from '@angular/router';
+import { Router, NavigationEnd, RouterLink, Params, UrlTree } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
 
@@ -69,23 +64,39 @@ export class NavbarComponent {
     };
   }
 
-  navigateToCatalog(event: Event, overrides: Params): void {
-    event.preventDefault();
-    const queryParams = this.resetParams(overrides);
-    this.onNavClick();
-    void this.router.navigate(['/catalogo'], {
-      queryParams,
-      queryParamsHandling: ''
-    });
+   navigateToCatalog(event: Event, overrides: Params): void {
+  // permite abrir en nueva pestaña con Ctrl/Cmd/Shift sin interferir
+  if (event instanceof MouseEvent) {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+      return;
+    }
   }
+  if (event instanceof KeyboardEvent) {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+      return;
+    }
+  }
+
+  event.preventDefault();
+  this.onNavClick();
+
+  const queryParams = this.resetParams(overrides);
+  void this.router.navigate(['/catalogo'], {
+    queryParams,
+    queryParamsHandling: ''  // no merges
+    // replaceUrl: false (por defecto)
+  });
+}
 
   buildCatalogHref(overrides: Params): string {
-    const urlTree = this.router.createUrlTree(['/catalogo'], {
-      queryParams: this.resetParams(overrides)
-    });
-    return this.router.serializeUrl(urlTree);
+    return this.router.serializeUrl(this.buildCatalogUrlTree(overrides));
   }
 
+  private buildCatalogUrlTree(overrides: Params): UrlTree {
+    return this.router.createUrlTree(['/catalogo'], {
+      queryParams: this.resetParams(overrides)
+    });
+  }
   /** Cierra el dropdown después del click en un item del menú */
   onNavClick(): void {
     this.activeMenu = null;
