@@ -1,0 +1,78 @@
+<div class="info-page">
+  <section class="info-hero page-hero--pqr">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Transparencia en cada paso</span>
+      <h1 class="info-hero__title">Consultar estado de PQR</h1>
+      <p class="info-hero__lead">
+        Conoce en qué etapa va tu petición, queja o reclamo. Te ofrecemos canales en tiempo real y notificaciones para que no
+        pierdas ningún detalle.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">📍 Estado actualizado</span>
+        <span class="highlight-pill">⏱️ Tiempos claros</span>
+        <span class="highlight-pill">🔔 Alertas automáticas</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=80"
+        alt="Persona revisando el estado de una solicitud en un computador portátil"
+      />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Consulta en minutos</h2>
+      <p class="info-section__lead">
+        Usa el canal que prefieras y verifica el estado de tu PQR con la información más reciente.
+      </p>
+    </div>
+    <div class="info-grid channel-grid">
+      <article class="info-card channel-card" *ngFor="let channel of channels">
+        <div class="info-card__icon" aria-hidden="true">{{ channel.icon }}</div>
+        <h3 class="info-card__title">{{ channel.title }}</h3>
+        <p class="info-card__body">{{ channel.body }}</p>
+        <span class="channel-card__time">{{ channel.time }}</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Estados de tu solicitud</h2>
+      <p class="info-section__lead">
+        Estos son los hitos que verás en la línea de tiempo con el tiempo estimado de respuesta.
+      </p>
+    </div>
+    <div class="status-grid">
+      <article class="status-card" *ngFor="let status of statuses">
+        <header>
+          <h3>{{ status.label }}</h3>
+          <span class="status-card__sla">{{ status.sla }}</span>
+        </header>
+        <p>{{ status.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Antes de consultar</h2>
+      <p class="info-section__lead">Verifica estos datos para obtener una respuesta más rápida.</p>
+    </div>
+    <ul class="detail-list reminder-list">
+      <li *ngFor="let reminder of reminders">
+        <strong>Recuerda</strong>
+        <span>{{ reminder }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--pqr">
+    <h3>Consejos para acelerar la respuesta</h3>
+    <ul class="tips-list">
+      <li *ngFor="let tip of tips">{{ tip }}</li>
+    </ul>
+  </section>
+</div>

@@ -10,3 +10,8 @@ export * from './terminos/terminos.component';
 export * from './envios/envios.component';
 export * from './metodos-pago/metodos-pago.component';
 export * from './puntos-beneficios/puntos-beneficios.component';
+export * from './puntos-beneficios/puntos-beneficios.component';
+export * from './otras-solicitudes/otras-solicitudes/otras-solicitudes.component';
+export * from './consultar-pqr/consultar-pqr/consultar-pqr.component';
+export * from './garantias-devoluciones/garantias-devoluciones/garantias-devoluciones.component';
+export * from './localizador-tiendas/localizador-tiendas/localizador-tiendas.component';

@@ -1,0 +1,89 @@
+@import '../../info-shared.css';
+
+.page-hero--pqr {
+  background: linear-gradient(135deg, #2563eb 0%, #60a5fa 50%, #e0f2fe 100%);
+  color: #ffffff;
+}
+
+.page-hero--pqr .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.channel-grid {
+  align-items: stretch;
+}
+
+.channel-card {
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  box-shadow: 0 24px 60px -36px rgba(37, 99, 235, 0.45);
+}
+
+.channel-card__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  font-size: 0.85rem;
+}
+
+.status-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.status-card {
+  background: #ffffff;
+  border-radius: 1.2rem;
+  padding: 1.35rem 1.4rem;
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  box-shadow: 0 22px 55px -34px rgba(37, 99, 235, 0.35);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.status-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.status-card h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.status-card__sla {
+  font-size: 0.85rem;
+  color: #1d4ed8;
+  font-weight: 600;
+  background: rgba(37, 99, 235, 0.12);
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+}
+
+.status-card p {
+  margin: 0;
+  color: #4b5a76;
+}
+
+.reminder-list li {
+  border-left-color: rgba(37, 99, 235, 0.35);
+}
+
+.info-spotlight--pqr {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(96, 165, 250, 0.18));
+  border: 1px solid rgba(37, 99, 235, 0.22);
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.65rem;
+  color: #425067;
+}

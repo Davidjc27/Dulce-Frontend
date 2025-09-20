@@ -1,0 +1,82 @@
+<div class="info-page">
+  <section class="info-hero page-hero--localizador">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Encuentra tu Dulce</span>
+      <h1 class="info-hero__title">📍 Localizador de tiendas</h1>
+      <p class="info-hero__lead">
+        Explora nuestras tiendas físicas, agenda experiencias personalizadas y verifica servicios disponibles en cada
+        ubicación antes de tu visita.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🗺️ Zonas georreferenciadas</span>
+        <span class="highlight-pill">🧑‍💼 Personal shopper</span>
+        <span class="highlight-pill">🧾 Recoge tus compras online</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1499313843374-9ffcb7a606df?auto=format&fit=crop&w=900&q=80"
+        alt="Mapa de la ciudad con puntos señalados"
+      />
+    </div>
+  </section>
+
+  <section class="info-section map-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Explora por zonas</h2>
+      <p class="info-section__lead">Visualiza nuestras tiendas en Bogotá y elige la que te quede más cerca.</p>
+    </div>
+    <div class="map-layout">
+      <div class="map-preview" aria-hidden="true">
+        <div class="map-preview__grid"></div>
+        <img
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
+          alt=""
+        />
+      </div>
+      <ul class="map-points">
+        <li *ngFor="let point of mapPoints">
+          <strong>{{ point.label }}</strong>
+          <span>{{ point.area }}</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Tiendas destacadas</h2>
+      <p class="info-section__lead">
+        Cada espacio Dulce está diseñado para vivir la moda con todos los sentidos. Estas son nuestras experiencias más
+        solicitadas.
+      </p>
+    </div>
+    <div class="store-grid">
+      <article class="store-card" *ngFor="let store of stores">
+        <header>
+          <span class="store-card__city">{{ store.city }}</span>
+          <h3>{{ store.name }}</h3>
+        </header>
+        <p class="store-card__address">{{ store.address }}</p>
+        <p class="store-card__schedule">{{ store.schedule }}</p>
+        <ul class="store-card__services">
+          <li *ngFor="let service of store.services">{{ service }}</li>
+        </ul>
+        <p class="store-card__phone">📞 {{ store.phone }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-spotlight info-spotlight--localizador">
+    <h3>Planifica tu visita</h3>
+    <ul class="tips-list">
+      <li *ngFor="let tip of tips">{{ tip }}</li>
+    </ul>
+    <div class="store-social" aria-label="Redes sociales Dulce">
+      <span class="store-social__icon" *ngFor="let social of socialIcons">
+        <span class="store-social__glyph" aria-hidden="true">{{ social.icon }}</span>
+        <span class="store-social__label">{{ social.label }}</span>
+      </span>
+    </div>
+  </section>
+</div>

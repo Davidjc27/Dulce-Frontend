@@ -1,0 +1,69 @@
+@import '../../info-shared.css';
+
+.page-hero--garantias {
+  background: linear-gradient(135deg, #059669 0%, #34d399 45%, #d1fae5 100%);
+  color: #ffffff;
+}
+
+.page-hero--garantias .info-hero__lead {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.option-grid {
+  align-items: stretch;
+}
+
+.option-card {
+  border: 1px solid rgba(5, 150, 105, 0.18);
+  box-shadow: 0 24px 60px -38px rgba(5, 150, 105, 0.4);
+}
+
+.option-card__note {
+  display: inline-flex;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(5, 150, 105, 0.12);
+  color: #047857;
+  font-size: 0.85rem;
+}
+
+.stepper {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 24px 60px -38px rgba(5, 150, 105, 0.38);
+  border: 1px solid rgba(5, 150, 105, 0.22);
+}
+
+.step__number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.step p {
+  margin: 0;
+  color: #4c6a61;
+}
+
+.coverage-card {
+  border: 1px solid rgba(5, 150, 105, 0.16);
+  box-shadow: 0 22px 55px -36px rgba(5, 150, 105, 0.35);
+}
+
+.checklist-list li {
+  border-left-color: rgba(5, 150, 105, 0.35);
+}
+
+.info-spotlight--garantias {
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.12), rgba(52, 211, 153, 0.18));
+  border: 1px solid rgba(5, 150, 105, 0.24);
+}

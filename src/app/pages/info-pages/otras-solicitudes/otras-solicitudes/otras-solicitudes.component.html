@@ -1,0 +1,86 @@
+<div class="info-page">
+  <section class="info-hero page-hero--otras">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Atención personalizada</span>
+      <h1 class="info-hero__title">Otras solicitudes</h1>
+      <p class="info-hero__lead">
+        Gestiona certificaciones, compras especiales o cualquier requerimiento que no encuentres en las opciones habituales.
+        Nuestro equipo de relaciones Dulce te acompaña de principio a fin.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🕒 Respuesta en 24 h</span>
+        <span class="highlight-pill">👥 Asesor dedicado</span>
+        <span class="highlight-pill">🗂️ Seguimiento completo</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80"
+        alt="Asesora de servicio al cliente revisando una solicitud"
+      />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">¿Qué podemos resolver?</h2>
+      <p class="info-section__lead">
+        Selecciona la opción que describe tu necesidad y prepararemos la mejor respuesta para ti.
+      </p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card" *ngFor="let request of requestTypes">
+        <div class="info-card__icon" aria-hidden="true">{{ request.icon }}</div>
+        <h3 class="info-card__title">{{ request.title }}</h3>
+        <p class="info-card__body">{{ request.body }}</p>
+        <p class="info-card__channel"><strong>Canal sugerido:</strong> {{ request.channel }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Cómo gestionar tu solicitud</h2>
+      <p class="info-section__lead">
+        Sigue estos pasos para que podamos darte respuesta sin contratiempos.
+      </p>
+    </div>
+    <div class="stepper">
+      <article class="step" *ngFor="let step of steps">
+        <span class="step__number">{{ step.number }}</span>
+        <div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.body }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Documentos útiles</h2>
+      <p class="info-section__lead">
+        Ten a la mano esta información para acelerar la validación y respuesta.
+      </p>
+    </div>
+    <ul class="detail-list">
+      <li *ngFor="let document of documents">
+        <strong>{{ document.title }}</strong>
+        <span>{{ document.body }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--otras">
+    <h3>Equipo de relaciones Dulce</h3>
+    <p>
+      Somos un grupo especializado en solicitudes a la medida. Cuéntanos tu caso y construiremos contigo la mejor solución.
+    </p>
+    <ul class="contact-list">
+      <li *ngFor="let contact of contacts">
+        <strong>{{ contact.title }}</strong>
+        <span>{{ contact.body }}</span>
+      </li>
+    </ul>
+  </section>
+</div>

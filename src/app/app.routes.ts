@@ -91,6 +91,30 @@ export const routes: Routes = [
       import('./pages/info-pages/puntos-beneficios/puntos-beneficios.component')
         .then(m => m.PuntosBeneficiosPageComponent)
   },
+{
+  path: 'otras-solicitudes',
+  loadComponent: () =>
+    import('./pages/info-pages/otras-solicitudes/otras-solicitudes/otras-solicitudes.component')
+      .then(m => m.OtrasSolicitudesPageComponent)
+},
+{
+  path: 'consultar-estado-pqr',
+  loadComponent: () =>
+    import('./pages/info-pages/consultar-pqr/consultar-pqr/consultar-pqr.component')
+      .then(m => m.ConsultarPqrPageComponent)
+},
+{
+  path: 'garantias-y-devoluciones',
+  loadComponent: () =>
+    import('./pages/info-pages/garantias-devoluciones/garantias-devoluciones/garantias-devoluciones.component')
+      .then(m => m.GarantiasDevolucionesPageComponent)
+},
+{
+  path: 'localizador-de-tiendas',
+  loadComponent: () =>
+    import('./pages/info-pages/localizador-tiendas/localizador-tiendas/localizador-tiendas.component')
+      .then(m => m.LocalizadorTiendasPageComponent)
+},
   {
     path: 'home',
     loadComponent: () =>

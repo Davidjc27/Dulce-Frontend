@@ -1,0 +1,90 @@
+<div class="info-page">
+  <section class="info-hero page-hero--garantias">
+    <div class="info-hero__content">
+      <span class="info-hero__badge">Confianza Dulce</span>
+      <h1 class="info-hero__title">Gestiona tus garantías y devoluciones</h1>
+      <p class="info-hero__lead">
+        Si tu prenda presenta una novedad, estamos listos para ayudarte. Conoce tus opciones y el paso a paso para darle
+        solución en el menor tiempo posible.
+      </p>
+      <div class="highlight-bar">
+        <span class="highlight-pill">🔍 Evaluación experta</span>
+        <span class="highlight-pill">🚚 Recogida sin costo</span>
+        <span class="highlight-pill">💬 Seguimiento constante</span>
+      </div>
+    </div>
+    <div class="info-hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
+        alt="Personal de taller revisando una prenda"
+      />
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Elige la ruta adecuada</h2>
+      <p class="info-section__lead">Cada caso es único. Estas son las alternativas que ponemos a tu disposición.</p>
+    </div>
+    <div class="info-grid option-grid">
+      <article class="info-card option-card" *ngFor="let option of pathOptions">
+        <div class="info-card__icon" aria-hidden="true">{{ option.icon }}</div>
+        <h3 class="info-card__title">{{ option.title }}</h3>
+        <p class="info-card__body">{{ option.body }}</p>
+        <span class="option-card__note">{{ option.note }}</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Así gestionamos tu garantía</h2>
+      <p class="info-section__lead">
+        Nuestro equipo técnico acompaña todo el proceso desde la evaluación hasta la entrega final.
+      </p>
+    </div>
+    <div class="stepper">
+      <article class="step" *ngFor="let step of steps">
+        <span class="step__number">{{ step.number }}</span>
+        <div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.body }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Cobertura de la garantía Dulce</h2>
+      <p class="info-section__lead">Estos son los escenarios que revisamos con prioridad para restaurar tu prenda.</p>
+    </div>
+    <div class="info-grid coverage-grid">
+      <article class="info-card coverage-card" *ngFor="let coverage of coverages">
+        <h3 class="info-card__title">{{ coverage.title }}</h3>
+        <p class="info-card__body">{{ coverage.body }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-section__intro">
+      <h2 class="info-section__title">Antes de enviarnos tu prenda</h2>
+      <p class="info-section__lead">Prepara esta información para que podamos procesar tu caso sin retrasos.</p>
+    </div>
+    <ul class="detail-list checklist-list">
+      <li *ngFor="let item of checklist">
+        <strong>Checklist</strong>
+        <span>{{ item }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info-spotlight info-spotlight--garantias">
+    <h3>Laboratorio Dulce Care</h3>
+    <p>
+      Nuestro laboratorio textil cuenta con tecnología para analizar fibras, resistencia de costuras y procesos de tintura.
+      Cada prenda recibe diagnóstico, tratamiento y pruebas de calidad antes de volver a tus manos.
+    </p>
+  </section>
+</div>
