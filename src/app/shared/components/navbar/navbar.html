@@ -17,16 +17,18 @@
       >
         <a
           class="menu-link"
-          [attr.href]="buildCatalogHref(catalogFilters.promotions)"
-          (click)="navigateToCatalog($event, catalogFilters.promotions)"
+          [routerLink]="['/catalogo']"
+          [queryParams]="buildCatalogParams(catalogFilters.promotions)"
+          (click)="onCatalogLinkClick($event, catalogFilters.promotions)"
         >
           <span class="menu-label">Promociones</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.promotions)"
-              (click)="navigateToCatalog($event, catalogFilters.promotions)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.promotions)"
+              (click)="onCatalogLinkClick($event, catalogFilters.promotions)"
             >
               Llévame a las promociones
             </a>
@@ -44,17 +46,19 @@
         (focusout)="handleFocusOut($event, 'nuevo')"
       >
         <a
-          class="menu-link"
-          [attr.href]="buildCatalogHref(catalogFilters.newest)"
-          (click)="navigateToCatalog($event, catalogFilters.newest)"
+            class="menu-link"
+            [routerLink]="['/catalogo']"
+            [queryParams]="buildCatalogParams(catalogFilters.newest)"
+            (click)="onCatalogLinkClick($event, catalogFilters.newest)"
         >
           <span class="menu-label">Nuevo</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.newest)"
-              (click)="navigateToCatalog($event, catalogFilters.newest)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.newest)"
+              (click)="onCatalogLinkClick($event, catalogFilters.newest)"
             >
               Tendencias
             </a>
@@ -73,40 +77,45 @@
       >
         <a
           class="menu-link"
-          [attr.href]="buildCatalogHref(catalogFilters.dama)"
-          (click)="navigateToCatalog($event, catalogFilters.dama)"
+          [routerLink]="['/catalogo']"
+          [queryParams]="buildCatalogParams(catalogFilters.dama)"
+          (click)="onCatalogLinkClick($event, catalogFilters.dama)"
         >
           <span class="menu-label">Dama</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.damaPijamas)"
-              (click)="navigateToCatalog($event, catalogFilters.damaPijamas)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.damaPijamas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaPijamas)"
             >
               Pijamas
             </a>
           </li>
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.damaBlusas)"
-              (click)="navigateToCatalog($event, catalogFilters.damaBlusas)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.damaBlusas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaBlusas)"
             >
               Blusas
             </a>
           </li>
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.damaCamisetas)"
-              (click)="navigateToCatalog($event, catalogFilters.damaCamisetas)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.damaCamisetas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaCamisetas)"
             >
               Camisetas
             </a>
           </li>
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.damaLeggins)"
-              (click)="navigateToCatalog($event, catalogFilters.damaLeggins)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.damaLeggins)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaLeggins)"
             >
               Leggins
             </a>
@@ -125,40 +134,45 @@
       >
         <a
           class="menu-link"
-          [attr.href]="buildCatalogHref(catalogFilters.nina)"
-          (click)="navigateToCatalog($event, catalogFilters.nina)"
+          [routerLink]="['/catalogo']"
+          [queryParams]="buildCatalogParams(catalogFilters.nina)"
+          (click)="onCatalogLinkClick($event, catalogFilters.nina)"
         >
           <span class="menu-label">Niña</span>
         </a>
         <ul class="dropdown">
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.ninaPijamas)"
-              (click)="navigateToCatalog($event, catalogFilters.ninaPijamas)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.ninaPijamas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaPijamas)"
             >
               Pijamas
             </a>
           </li>
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.ninaBlusas)"
-              (click)="navigateToCatalog($event, catalogFilters.ninaBlusas)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.ninaBlusas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaBlusas)"
             >
               Blusas
             </a>
           </li>
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.ninaCamisetas)"
-              (click)="navigateToCatalog($event, catalogFilters.ninaCamisetas)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.ninaCamisetas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaCamisetas)"
             >
               Camisetas
             </a>
           </li>
           <li>
             <a
-              [attr.href]="buildCatalogHref(catalogFilters.ninaLeggins)"
-              (click)="navigateToCatalog($event, catalogFilters.ninaLeggins)"
+              [routerLink]="['/catalogo']"
+              [queryParams]="buildCatalogParams(catalogFilters.ninaLeggins)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaLeggins)"
             >
               Leggins
             </a>
