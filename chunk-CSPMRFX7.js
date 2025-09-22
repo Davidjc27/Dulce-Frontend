@@ -1,1 +1,0 @@
-import{N as e,i as r}from"./chunk-NNVSBPZR.js";var i=class a{navigationSubject=new r;get navigation$(){return this.navigationSubject.asObservable()}trigger(t){this.navigationSubject.next(t)}static \u0275fac=function(o){return new(o||a)};static \u0275prov=e({token:a,factory:a.\u0275fac,providedIn:"root"})};export{i as a};

@@ -1,1 +1,0 @@
-import{Ha as t,bb as n,cb as c,qb as m}from"./chunk-NNVSBPZR.js";var r=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=t({type:o,selectors:[["app-checkout-form"]],decls:2,vars:0,template:function(e,a){e&1&&(n(0,"p"),m(1,"checkout-form works!"),c())},encapsulation:2})};export{r as CheckoutFormComponent};
