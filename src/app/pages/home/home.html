@@ -1,6 +1,5 @@
 <section class="hero">
-  <div class="hero-video" aria-hidden="true">
-    <div class="hero-brand" *ngIf="showBrandReveal">Dulce</div>
+  <div class="hero-video" aria-hidden="false">
     <video
       #heroVideoEl
       class="hero-video-el"
@@ -14,12 +13,16 @@
       <source src="assets/video/hero-540-8s.mp4" type="video/mp4" />
       Tu navegador no soporta video HTML5.
     </video>
+
+    <!-- 👇 Mover aquí y SIN *ngIf* para descartar lógica -->
+    <div class="hero-brand">Dulce</div>
   </div>
 
   <div class="hero-content">
     <p>Moda inspirada en ti.</p>
   </div>
 </section>
+
 
 <section class="spotlights">
   <a
