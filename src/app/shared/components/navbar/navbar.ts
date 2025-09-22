@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { Component, HostListener, inject } from '@angular/core';
 import { Router, NavigationEnd, RouterLink, Params } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -32,6 +32,7 @@ export class NavbarComponent {
   isHome = false;
 
   private readonly router = inject(Router);
+   private readonly location = inject(Location);
   private readonly cartService = inject(CartService);
   readonly totalCartItems$ = this.cartService.totalQuantity$;
 
@@ -88,8 +89,8 @@ export class NavbarComponent {
       // Forzar recarga dura (útil en GitHub Pages/baseHref)
       event.preventDefault();
       const tree = this.router.createUrlTree(['/catalogo'], { queryParams });
-      const url = this.router.serializeUrl(tree);
-      window.location.assign(url);
+      const externalUrl = this.location.prepareExternalUrl(this.router.serializeUrl(tree));
+      window.location.assign(externalUrl);
     } else {
       // Solo SPA (sin recargar): navega programáticamente
       event.preventDefault();
