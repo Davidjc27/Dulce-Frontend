@@ -35,14 +35,24 @@ export class NavbarComponent {
   private readonly cartService = inject(CartService);
   readonly totalCartItems$ = this.cartService.totalQuantity$;
 
-  // 🔧 Cambia a true si quieres forzar recarga dura cuando ya estés en /catalogo
+  // 👇 Estado del menú hamburguesa (móvil)
+  isMobileMenuOpen = false;
+
+  // 🔧 Si estás ya en /catalogo, fuerza recarga dura para que “resetee” correctamente
   private readonly FORCE_HARD_RELOAD_ON_CATALOG = true;
 
   constructor() {
     this.updateIsHome(this.router.url);
+
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd), takeUntilDestroyed())
-      .subscribe(e => this.updateIsHome(e.urlAfterRedirects));
+      .subscribe(e => {
+        this.updateIsHome(e.urlAfterRedirects);
+        // Cierra el menú móvil al navegar
+        this.closeMobileMenu();
+        // Cierra cualquier dropdown abierto
+        this.activeMenu = null;
+      });
   }
 
   /** Limpia todos los filtros y aplica overrides */
@@ -75,11 +85,11 @@ export class NavbarComponent {
 
     // Si estás en /catalogo:
     if (this.FORCE_HARD_RELOAD_ON_CATALOG) {
-      // Forzar recarga dura (GitHub Pages/baseHref incluidos)
+      // Forzar recarga dura (útil en GitHub Pages/baseHref)
       event.preventDefault();
       const tree = this.router.createUrlTree(['/catalogo'], { queryParams });
       const url = this.router.serializeUrl(tree);
-      window.location.assign(url); // 🔁 recarga toda la página
+      window.location.assign(url);
     } else {
       // Solo SPA (sin recargar): navega programáticamente
       event.preventDefault();
@@ -87,6 +97,7 @@ export class NavbarComponent {
     }
   }
 
+  // ===== Menú / dropdowns =====
   onNavClick(): void { this.activeMenu = null; }
   openMenu(menuId: string): void { this.activeMenu = menuId; }
   closeMenu(menuId: string): void { if (this.activeMenu === menuId) this.activeMenu = null; }
@@ -98,11 +109,18 @@ export class NavbarComponent {
     this.closeMenu(menuId);
   }
 
-  @HostListener('document:keydown.escape') onEscape(): void { this.activeMenu = null; }
+  @HostListener('document:keydown.escape') onEscape(): void { 
+    this.activeMenu = null; 
+    this.closeMobileMenu();
+  }
 
   private updateIsHome(url: string): void { this.isHome = this.isHomeUrl(url); }
   private isHomeUrl(url: string): boolean {
     const [pathname] = (url ?? '').split('?');
     return pathname === '/home' || pathname === '/' || pathname === '';
   }
+
+  // ===== Menú móvil (hamburguesa) =====
+  toggleMobileMenu(): void { this.isMobileMenuOpen = !this.isMobileMenuOpen; }
+  closeMobileMenu(): void { this.isMobileMenuOpen = false; }
 }

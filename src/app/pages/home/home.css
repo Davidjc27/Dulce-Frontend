@@ -200,3 +200,15 @@
 .spotlight-card--nina {
   background-image: url('https://images.unsplash.com/photo-1504198458649-3128b932f49b?auto=format&fit=crop&w=1200&h=800&q=60');
 }
+
+@media (max-width: 768px) {
+  .hero-video {
+    height: clamp(240px, 48vh, 420px);
+    border-radius: 1rem;
+  }
+
+  .hero-brand {
+    font-size: clamp(1.75rem, 8.5vw, 3rem);
+    top: clamp(1.5rem, 6vh, 3rem);
+  }
+}

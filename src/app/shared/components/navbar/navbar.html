@@ -5,7 +5,22 @@
       <a class="logo" routerLink="/home" aria-label="Ir al inicio">Dulce</a>
     </div>
 
-    <ul class="menu">
+    <!-- Botón hamburguesa (solo visible en móvil) -->
+    <button
+      class="menu-toggle"
+      type="button"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      aria-controls="main-menu"
+      (click)="toggleMobileMenu()"
+    >
+      <span class="sr-only">Abrir menú</span>
+      <span class="menu-toggle-bar"></span>
+      <span class="menu-toggle-bar"></span>
+      <span class="menu-toggle-bar"></span>
+    </button>
+
+    <!-- Menú principal -->
+    <ul id="main-menu" class="menu" [class.open]="isMobileMenuOpen">
       <!-- Promociones -->
       <li
         class="menu-item has-dropdown menu-promociones"
@@ -19,7 +34,7 @@
           class="menu-link"
           [routerLink]="['/catalogo']"
           [queryParams]="buildCatalogParams(catalogFilters.promotions)"
-          (click)="onCatalogLinkClick($event, catalogFilters.promotions)"
+          (click)="onCatalogLinkClick($event, catalogFilters.promotions); closeMobileMenu()"
         >
           <span class="menu-label">Promociones</span>
         </a>
@@ -28,7 +43,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.promotions)"
-              (click)="onCatalogLinkClick($event, catalogFilters.promotions)"
+              (click)="onCatalogLinkClick($event, catalogFilters.promotions); closeMobileMenu()"
             >
               Llévame a las promociones
             </a>
@@ -46,10 +61,10 @@
         (focusout)="handleFocusOut($event, 'nuevo')"
       >
         <a
-            class="menu-link"
-            [routerLink]="['/catalogo']"
-            [queryParams]="buildCatalogParams(catalogFilters.newest)"
-            (click)="onCatalogLinkClick($event, catalogFilters.newest)"
+          class="menu-link"
+          [routerLink]="['/catalogo']"
+          [queryParams]="buildCatalogParams(catalogFilters.newest)"
+          (click)="onCatalogLinkClick($event, catalogFilters.newest); closeMobileMenu()"
         >
           <span class="menu-label">Nuevo</span>
         </a>
@@ -58,7 +73,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.newest)"
-              (click)="onCatalogLinkClick($event, catalogFilters.newest)"
+              (click)="onCatalogLinkClick($event, catalogFilters.newest); closeMobileMenu()"
             >
               Tendencias
             </a>
@@ -79,7 +94,7 @@
           class="menu-link"
           [routerLink]="['/catalogo']"
           [queryParams]="buildCatalogParams(catalogFilters.dama)"
-          (click)="onCatalogLinkClick($event, catalogFilters.dama)"
+          (click)="onCatalogLinkClick($event, catalogFilters.dama); closeMobileMenu()"
         >
           <span class="menu-label">Dama</span>
         </a>
@@ -88,7 +103,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.damaPijamas)"
-              (click)="onCatalogLinkClick($event, catalogFilters.damaPijamas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaPijamas); closeMobileMenu()"
             >
               Pijamas
             </a>
@@ -97,7 +112,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.damaBlusas)"
-              (click)="onCatalogLinkClick($event, catalogFilters.damaBlusas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaBlusas); closeMobileMenu()"
             >
               Blusas
             </a>
@@ -106,7 +121,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.damaCamisetas)"
-              (click)="onCatalogLinkClick($event, catalogFilters.damaCamisetas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaCamisetas); closeMobileMenu()"
             >
               Camisetas
             </a>
@@ -115,7 +130,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.damaLeggins)"
-              (click)="onCatalogLinkClick($event, catalogFilters.damaLeggins)"
+              (click)="onCatalogLinkClick($event, catalogFilters.damaLeggins); closeMobileMenu()"
             >
               Leggins
             </a>
@@ -136,7 +151,7 @@
           class="menu-link"
           [routerLink]="['/catalogo']"
           [queryParams]="buildCatalogParams(catalogFilters.nina)"
-          (click)="onCatalogLinkClick($event, catalogFilters.nina)"
+          (click)="onCatalogLinkClick($event, catalogFilters.nina); closeMobileMenu()"
         >
           <span class="menu-label">Niña</span>
         </a>
@@ -145,7 +160,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.ninaPijamas)"
-              (click)="onCatalogLinkClick($event, catalogFilters.ninaPijamas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaPijamas); closeMobileMenu()"
             >
               Pijamas
             </a>
@@ -154,7 +169,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.ninaBlusas)"
-              (click)="onCatalogLinkClick($event, catalogFilters.ninaBlusas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaBlusas); closeMobileMenu()"
             >
               Blusas
             </a>
@@ -163,7 +178,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.ninaCamisetas)"
-              (click)="onCatalogLinkClick($event, catalogFilters.ninaCamisetas)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaCamisetas); closeMobileMenu()"
             >
               Camisetas
             </a>
@@ -172,7 +187,7 @@
             <a
               [routerLink]="['/catalogo']"
               [queryParams]="buildCatalogParams(catalogFilters.ninaLeggins)"
-              (click)="onCatalogLinkClick($event, catalogFilters.ninaLeggins)"
+              (click)="onCatalogLinkClick($event, catalogFilters.ninaLeggins); closeMobileMenu()"
             >
               Leggins
             </a>
@@ -189,16 +204,17 @@
         (focusin)="openMenu('acceso')"
         (focusout)="handleFocusOut($event, 'acceso')"
       >
-         <button class="menu-link" type="button" disabled aria-disabled="true"> 
+        <button class="menu-link" type="button" disabled aria-disabled="true">
           <span class="menu-label">Acceso</span>
         </button>
         <ul class="dropdown">
           <li>
-             <span class="menu-info">Acceso para empleados disponible próximamente.</span>
+            <span class="menu-info">Acceso para empleados disponible próximamente.</span>
           </li>
         </ul>
       </li>
     </ul>
+
     <div class="navbar-actions">
       <a class="cart-entry" routerLink="/carrito" aria-label="Abrir carrito">
         <span class="cart-entry-icon" aria-hidden="true">🛒</span>
