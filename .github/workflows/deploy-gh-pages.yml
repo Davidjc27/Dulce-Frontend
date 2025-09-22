@@ -1,0 +1,54 @@
+name: Deploy to gh-pages
+
+on:
+  push:
+    branches: [ main ]   # cada push a main
+  workflow_dispatch:      # y manualmente desde Actions
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write     # para poder pushear a gh-pages
+      pages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build Angular
+        run: |
+          npx ng build --configuration production --base-href=/Dulce-Frontend/
+          if [ -f dist/dulce-frontend/browser/index.html ]; then
+            cp dist/dulce-frontend/browser/index.html dist/dulce-frontend/browser/404.html
+            echo "Using dist/dulce-frontend/browser"
+          else
+            cp dist/dulce-frontend/index.html dist/dulce-frontend/404.html
+            echo "Using dist/dulce-frontend"
+          fi
+
+      - name: Find build dir
+        id: finddir
+        run: |
+          if [ -d dist/dulce-frontend/browser ]; then
+            echo "outdir=dist/dulce-frontend/browser" >> $GITHUB_OUTPUT
+          else
+            echo "outdir=dist/dulce-frontend" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ steps.finddir.outputs.outdir }}
+          publish_branch: gh-pages
+          commit_message: "Deploy from GitHub Actions"
