@@ -46,7 +46,7 @@
   background: #ffffff;
   border-radius: 18px;
   padding: 1.25rem;
-  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px));
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
   z-index: 30;
@@ -335,10 +335,11 @@
   .filters-panel {
     position: fixed;
     top: var(--navbar-offset);
+    bottom: max(env(safe-area-inset-bottom, 0px), 0px);
     left: 0;
-    height: calc(100vh - var(--navbar-offset));
     width: min(88vw, 320px);
     border-radius: 0;
+    max-height: none;
     transform: translateX(-105%);
   }
 
