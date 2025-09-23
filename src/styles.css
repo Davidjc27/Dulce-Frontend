@@ -1,3 +1,20 @@
+:root {
+  --navbar-height: 4.5rem;
+  --navbar-offset: calc(var(--navbar-height) + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --navbar-height: 3.2rem;
+  }
+}
+
 .navbar .navbar-actions {
   justify-self: end;
 }
@@ -92,10 +109,10 @@
 
 .cart-panel {
   position: fixed;
-  top: 0;
+  top: var(--navbar-offset);
   right: 0;
   width: min(100%, 360px);
-  height: 100vh;
+  height: calc(100vh - var(--navbar-offset));
   background: #ffffff;
   border-radius: 1.1rem 0 0 1.1rem;
   transform: translateX(105%);
@@ -325,7 +342,10 @@
 
 .cart-panel-backdrop {
   position: fixed;
-  inset: 0;
+  top: var(--navbar-offset);
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(15, 23, 42, 0.35);
   z-index: 70;
 }
